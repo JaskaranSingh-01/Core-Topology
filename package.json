@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "watch:scss" : "node-sass -w ./static/navbar.scss ./static/navbar.css"
+  },
+  "dependencies": {
+    "node-sass": "^9.0.0"
+  }
+}
