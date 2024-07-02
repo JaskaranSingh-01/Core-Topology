@@ -7,8 +7,7 @@
     <title>Core Topology</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"> -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles2.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
@@ -23,8 +22,20 @@
             color: var(--text-color);
         }
 
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+
         .container {
-            margin-top: 20px;
+            flex: 1;
+            margin: 0 10px;
+            background-color: #222222;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0px 9px 13px 0px rgba(0, 0, 0, 0.3);
+            transform: scale(1);
         }
 
         .hidden {
@@ -136,265 +147,412 @@
             color: rgb(255, 255, 255);
             transform: translateY(-30px);
         }
+
+        .submit-input {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.125em;
+            line-height: 1.33333em;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+
+        .radio-input {
+            margin: 10px 0;
+        }
+
+        .label {
+            display: flex;
+            align-items: center;
+        }
+
+        .check {
+            width: 16px;
+            height: 16px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+        }
+
+        .txt {
+            font-size: 16px;
+        }
+
+        .submit-btn {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .fancy {
+            display: inline-block;
+            position: relative;
+            padding: 10px 20px;
+            background-color: black;
+            color: white;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .fancy:hover {
+            background-color: #333;
+        }
+
+        .fancy .text {
+            display: block;
+        }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <span class="menu-trigger">
-            <i class="menu-trigger-bar top"></i>
-            <i class="menu-trigger-bar middle"></i>
-            <i class="menu-trigger-bar bottom"></i>
-        </span>
-        <span class="close-trigger">
-            <i class="close-trigger-bar left"></i>
-            <i class="close-trigger-bar right"></i>
-        </span>
-        <span class="logo">
-            <span>
-                <div class="headings">
-                    Select Visualization
-                </div>
-                <form id="myForm" action="." target="_blank" method="post">
-                    <div class="radio-input">
-                        <label class="label">
-                            <input type="radio" id="vis" name="Function" value="V" onclick="toggleFunctionFields()">
-                            <span class="check"></span>
-                        </label>
-                        <label for="Visualize Path" class="txt"> Visualize All Nodes</label>
-                    </div>
-
-                    <div class="radio-input">
-                        <label class="label">
-                            <input type="radio" id="find" name="Function" value="Find Path"
-                                onclick="toggleFunctionFields()">
-                            <span class="check"></span>
-                        </label>
-                        <label for="Find Path" class="txt"> Find Path</label>
-                    </div>
-
-                    <div id="findPathFields" class="hidden txt">
-                        <div class="form-row">
-                            <div class="form-control">
-                                <input type="text" name="src" id="src">
-                                <label>
-                                    <span style="transition-delay:0ms">S</span><span
-                                        style="transition-delay:50ms">o</span><span
-                                        style="transition-delay:100ms">u</span><span
-                                        style="transition-delay:150ms">r</span><span
-                                        style="transition-delay:200ms">c</span><span
-                                        style="transition-delay:250ms">e</span><span style="transition-delay:300ms">
-                                    </span><span style="transition-delay:350ms">N</span><span
-                                        style="transition-delay:400ms">o</span><span
-                                        style="transition-delay:450ms">d</span><span
-                                        style="transition-delay:500ms">e</span>
-                                </label>
-                            </div>
-                            <div class="form-control">
-                                <input type="text" name="des" id="des">
-                                <label>
-                                    <span style="transition-delay:0ms">D</span><span
-                                        style="transition-delay:50ms">e</span><span
-                                        style="transition-delay:100ms">s</span><span
-                                        style="transition-delay:150ms">t</span><span
-                                        style="transition-delay:200ms">i</span><span
-                                        style="transition-delay:250ms">n</span><span
-                                        style="transition-delay:300ms">a</span><span
-                                        style="transition-delay:350ms">t</span><span
-                                        style="transition-delay:400ms">i</span><span
-                                        style="transition-delay:450ms">o</span><span
-                                        style="transition-delay:500ms">n</span><span style="transition-delay:550ms">
-                                    </span><span style="transition-delay:600ms">N</span><span
-                                        style="transition-delay:650ms">o</span><span
-                                        style="transition-delay:700ms">d</span><span
-                                        style="transition-delay:750ms">e</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="radio-input">
-                        <label class="label">
-                            <input type="radio" id="show_all" name="Function" value="all"
-                                onchange="toggleFunctionFields()">
-                            <span class="check"></span>
-                        </label>
-                        <label class="txt">Show all Nodes</label>
-                    </div>
-
-                    <div class="radio-input">
-                        <label class="label">
-                            <input type="radio" id="individual" name="Function" value="individual"
-                                onchange="toggleFunctionFields()">
-                            <span class="check"></span>
-                        </label>
-                        <label for="Charts" class="txt">Individual Charts
-                            [GDC_NPO_CS_DASH_Counter_CNRH_UG_Part1]</label>
-                    </div>
-
-                    <div style="width: 80%;" id="ind" class="a hidden txt">
-                        <input class="chosen-value" type="text" name="option1" id='option1' value=""
-                            placeholder="Type to filter">
-                        <ul class="value-list">
-                            {% for file in files_uganda_1 %}
-                            <li value={{file}}>{{file}}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-
-
-                    <div class="radio-input">
-                        <label class="label">
-                            <input type="radio" id="compare" name="Function" value="compare"
-                                onclick="toggleFunctionFields()">
-                            <span class="check"></span>
-                        </label>
-                        <label for="cmp_Charts" class="txt">Compare Charts
-                            [GDC_NPO_CS_DASH_Counter_CNRH_UG_Part1]</label>
-                    </div>
-
-                    <div style="width: 80%;" id="cmp" class="a hidden txt">
-                        <input class="chosen-value" type="text" name="option2" id='option2' value=""
-                            placeholder="Type to filter">
-                        <ul class="value-list">
-                            {% for file in files_uganda_1 %}
-                            <li value={{file}}>{{file}}</li>
-                            {% endfor %}
-                        </ul>
-
-                        <input class="chosen-value" type="text" name="option3" id='option3' value=""
-                            placeholder="Type to filter">
-                        <ul class="value-list">
-                            {% for file in files_uganda_1 %}
-                            <li value={{file}}>{{file}}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-
-
-                    <div class="radio-input">
-                        <label class="label">
-                            <input type="radio" id="u2" name="Function" value="u2" onchange="toggleFunctionFields()">
-                            <span class="check"></span>
-                        </label>
-                        <label for="Charts_z" class="txt">Individual Charts [CNRH_NPO]</label>
-                    </div>
-
-                    <div style="width: 80%;" id="u22" class="a hidden txt">
-                        <input class="chosen-value" type="text" name="option4" id='option4' value=""
-                            placeholder="Type to filter">
-                        <ul class="value-list">
-                            {% for file in files_uganda_2 %}
-                            <li value={{file}}>{{file}}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-
-
-
-                    <div class="radio-input">
-                        <label class="label">
-                            <input type="radio" id="z1" name="Function" value="z1" onchange="toggleFunctionFields()">
-                            <span class="check"></span>
-                        </label>
-                        <label for="ZM-GDC_Core_KPIs" class="txt">Individual Charts [ZM-GDC_Core_KPIs]</label>
-                    </div>
-
-                    <div style="width: 80%;" id="z11" class="a hidden txt">
-                        <input class="chosen-value" type="text" name="option5" id='option5' value=""
-                            placeholder="Type to filter">
-                        <ul class="value-list">
-                            {% for file in files_zim_1 %}
-                            <li value={{file}}>{{file}}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-
-
-                    <div class="radio-input">
-                        <label class="label">
-                            <input type="radio" id="z2" name="Function" value="z2" onchange="toggleFunctionFields()">
-                            <span class="check"></span>
-                        </label>
-                        <label for="ZM-CNRH_NPO" class="txt">Individual Charts [ZM-CNRH_NPO]</label>
-                    </div>
-
-                    <div style="width: 80%;" id="z22" class="a hidden txt">
-                        <input class="chosen-value" type="text" name="option6" id='option6' value=""
-                            placeholder="Type to filter">
-                        <ul class="value-list">
-                            {% for file in files_zim_2 %}
-                            <li value={{file}}>{{file}}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-
-
-
-                    <div class="radio-input">
-                        <label class="label">
-                            <input type="radio" id="find_in_bytellldp" name="Function" value="value_of_bytellldp"
-                                onclick="toggleFunctionFields()">
-                            <span class="check"></span>
-                        </label>
-                        <label for="find_in_bytellldp" class="txt"> Find Path [Bytellldp]</label>
-                    </div>
-
-                    <div id="path_in_bytellldp" class="hidden txt">
-                        <div class="form-row">
-                            <div class="form-control">
-                                <input type="text" name="bytellldp_source" id="bytellldp_source">
-                                <label>
-                                    <span style="transition-delay:0ms">S</span><span
-                                        style="transition-delay:50ms">o</span><span
-                                        style="transition-delay:100ms">u</span><span
-                                        style="transition-delay:150ms">r</span><span
-                                        style="transition-delay:200ms">c</span><span
-                                        style="transition-delay:250ms">e</span><span style="transition-delay:300ms">
-                                    </span><span style="transition-delay:350ms">N</span><span
-                                        style="transition-delay:400ms">o</span><span
-                                        style="transition-delay:450ms">d</span><span
-                                        style="transition-delay:500ms">e</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="form-row submit-btn">
-                        <a class="fancy">
-                            <span class="top-key"></span>
-                            <span class="text">
-                                <input type="submit" value="Submit"
-                                    style="background: transparent; border: none; color: rgb(255, 255, 255); font-size: 1.125em; line-height: 1.33333em; text-transform: uppercase; cursor: pointer; padding-left: 2em; width: 200px;">
-                            </span>
-                            <span class="bottom-key-1"></span>
-                            <span class="bottom-key-2"></span>
-                        </a>
-                    </div>
-
-                </form>
+    <div class="main-container">
+        <div class="container">
+            <!-- Left Container: Core Topology -->
+            <span class="menu-trigger">
+                <i class="menu-trigger-bar top"></i>
+                <i class="menu-trigger-bar middle"></i>
+                <i class="menu-trigger-bar bottom"></i>
             </span>
-        </span>
-        <div class="inner-container">
-            <i class="menu-bg top"></i>
-            <i class="menu-bg middle"></i>
-            <i class="menu-bg bottom"></i>
-            <div class="menu-container">
-                <ul class="menu">
-                    {% for k in files %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/{{k}}" target="_blank">{{k}}</a>
-                    </li>
-                    {% endfor%}
-                </ul>
-            </div>
+            <span class="close-trigger">
+                <i class="close-trigger-bar left"></i>
+                <i class="close-trigger-bar right"></i>
+            </span>
+            <span class="logo">
+                <span>
+                    <div class="headings">
+                        Select Visualization
+                    </div>
+                    <form id="myForm" action="." target="_blank" method="post">
+                        <div class="radio-input">
+                            <label class="label">
+                                <input type="radio" id="vis" name="Function" value="V" onclick="toggleFunctionFields()">
+                                <span class="check"></span>
+                            </label>
+                            <label for="Visualize Path" class="txt"> Visualize All Nodes</label>
+                        </div>
+                        <div class="radio-input">
+                            <label class="label">
+                                <input type="radio" id="find" name="Function" value="Find Path"
+                                    onclick="toggleFunctionFields()">
+                                <span class="check"></span>
+                            </label>
+                            <label for="Find Path" class="txt"> Find Path</label>
+                        </div>
+                        <div id="findPathFields" class="hidden txt">
+                            <div class="form-row">
+                                <div class="form-control">
+                                    <input type="text" name="src" id="src">
+                                    <label>
+                                        <span style="transition-delay:0ms">S</span><span
+                                            style="transition-delay:50ms">o</span><span
+                                            style="transition-delay:100ms">u</span><span
+                                            style="transition-delay:150ms">r</span><span
+                                            style="transition-delay:200ms">c</span><span
+                                            style="transition-delay:250ms">e</span><span style="transition-delay:300ms">
+                                        </span><span style="transition-delay:350ms">N</span><span
+                                            style="transition-delay:400ms">o</span><span
+                                            style="transition-delay:450ms">d</span><span
+                                            style="transition-delay:500ms">e</span>
+                                    </label>
+                                </div>
+                                <div class="form-control">
+                                    <input type="text" name="des" id="des">
+                                    <label>
+                                        <span style="transition-delay:0ms">D</span><span
+                                            style="transition-delay:50ms">e</span><span
+                                            style="transition-delay:100ms">s</span><span
+                                            style="transition-delay:150ms">t</span><span
+                                            style="transition-delay:200ms">i</span><span
+                                            style="transition-delay:250ms">n</span><span
+                                            style="transition-delay:300ms">a</span><span
+                                            style="transition-delay:350ms">t</span><span
+                                            style="transition-delay:400ms">i</span><span
+                                            style="transition-delay:450ms">o</span><span
+                                            style="transition-delay:500ms">n</span><span style="transition-delay:550ms">
+                                            </span><span style="transition-delay:600ms">N</span><span
+                                            style="transition-delay:650ms">o</span><span
+                                            style="transition-delay:700ms">d</span><span
+                                            style="transition-delay:750ms">e</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+    
+    
+                        <div class="radio-input">
+                            <label class="label">
+                                <input type="radio" id="show_all" name="Function" value="all"
+                                    onchange="toggleFunctionFields()">
+                                <span class="check"></span>
+                            </label>
+                            <label class="txt">Show all Nodes</label>
+                        </div>
+
+                        <div class="radio-input">
+                            <label class="label">
+                                <input type="radio" id="individual" name="Function" value="individual"
+                                    onchange="toggleFunctionFields()">
+                                <span class="check"></span>
+                            </label>
+                            <label for="Charts" class="txt">Individual Charts
+                                [GDC_NPO_CS_DASH_Counter_CNRH_UG_Part1]</label>
+                        </div>
+    
+                        <div style="width: 80%;" id="ind" class="a hidden txt">
+                            <input class="chosen-value" type="text" name="option1" id='option1' value=""
+                                placeholder="Type to filter">
+                            <ul class="value-list">
+                                {% for file in files_uganda_1 %}
+                                <li value={{file}}>{{file}}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+    
+    
+                        <div class="radio-input">
+                            <label class="label">
+                                <input type="radio" id="compare" name="Function" value="compare"
+                                    onclick="toggleFunctionFields()">
+                                <span class="check"></span>
+                            </label>
+                            <label for="cmp_Charts" class="txt">Compare Charts
+                                [GDC_NPO_CS_DASH_Counter_CNRH_UG_Part1]</label>
+                        </div>
+
+                        <div style="width: 80%;" id="cmp" class="a hidden txt">
+                            <input class="chosen-value" type="text" name="option2" id='option2' value=""
+                                placeholder="Type to filter">
+                            <ul class="value-list">
+                                {% for file in files_uganda_1 %}
+                                <li value={{file}}>{{file}}</li>
+                                {% endfor %}
+                            </ul>
+    
+                            <input class="chosen-value" type="text" name="option3" id='option3' value=""
+                                placeholder="Type to filter">
+                            <ul class="value-list">
+                                {% for file in files_uganda_1 %}
+                                <li value={{file}}>{{file}}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <div class="radio-input">
+                            <label class="label">
+                                <input type="radio" id="u2" name="Function" value="u2" onchange="toggleFunctionFields()">
+                                <span class="check"></span>
+                            </label>
+                            <label for="Charts_z" class="txt">Individual Charts [CNRH_NPO]</label>
+                        </div>
+    
+                        <div style="width: 80%;" id="u22" class="a hidden txt">
+                            <input class="chosen-value" type="text" name="option4" id='option4' value=""
+                                placeholder="Type to filter">
+                            <ul class="value-list">
+                                {% for file in files_uganda_2 %}
+                                <li value={{file}}>{{file}}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+    
+    
+    
+                        <div class="radio-input">
+                            <label class="label">
+                                <input type="radio" id="z1" name="Function" value="z1" onchange="toggleFunctionFields()">
+                                <span class="check"></span>
+                            </label>
+                            <label for="ZM-GDC_Core_KPIs" class="txt">Individual Charts [ZM-GDC_Core_KPIs]</label>
+                        </div>
+
+
+                        <div style="width: 80%;" id="z11" class="a hidden txt">
+                            <input class="chosen-value" type="text" name="option5" id='option5' value=""
+                                placeholder="Type to filter">
+                            <ul class="value-list">
+                                {% for file in files_zim_1 %}
+                                <li value={{file}}>{{file}}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+    
+    
+                        <div class="radio-input">
+                            <label class="label">
+                                <input type="radio" id="z2" name="Function" value="z2" onchange="toggleFunctionFields()">
+                                <span class="check"></span>
+                            </label>
+                            <label for="ZM-CNRH_NPO" class="txt">Individual Charts [ZM-CNRH_NPO]</label>
+                        </div>
+
+
+
+                        <div style="width: 80%;" id="z22" class="a hidden txt">
+                            <input class="chosen-value" type="text" name="option6" id='option6' value=""
+                                placeholder="Type to filter">
+                            <ul class="value-list">
+                                {% for file in files_zim_2 %}
+                                <li value={{file}}>{{file}}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+    
+    
+    
+                        <div class="radio-input">
+                            <label class="label">
+                                <input type="radio" id="find_in_bytellldp" name="Function" value="value_of_bytellldp"
+                                    onclick="toggleFunctionFields()">
+                                <span class="check"></span>
+                            </label>
+                            <label for="find_in_bytellldp" class="txt"> Find Path [Bytellldp]</label>
+                        </div>
+
+
+                        <div id="path_in_bytellldp" class="hidden txt">
+                            <div class="form-row">
+                                <div class="form-control">
+                                    <input type="text" name="bytellldp_source" id="bytellldp_source">
+                                    <label>
+                                        <span style="transition-delay:0ms">S</span><span
+                                            style="transition-delay:50ms">o</span><span
+                                            style="transition-delay:100ms">u</span><span
+                                            style="transition-delay:150ms">r</span><span
+                                            style="transition-delay:200ms">c</span><span
+                                            style="transition-delay:250ms">e</span><span style="transition-delay:300ms">
+                                        </span><span style="transition-delay:350ms">N</span><span
+                                            style="transition-delay:400ms">o</span><span
+                                            style="transition-delay:450ms">d</span><span
+                                            style="transition-delay:500ms">e</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row submit-btn">
+                            <a class="fancy">
+                                <span class="top-key"></span>
+                                <span class="text">
+                                    <input type="submit" value="Submit"
+                                        style="background: transparent; border: none; color: rgb(255, 255, 255); font-size: 1.125em; line-height: 1.33333em; text-transform: uppercase; cursor: pointer; padding-left: 2em; width: 200px;">
+                                </span>
+                                <span class="bottom-key-1"></span>
+                                <span class="bottom-key-2"></span>
+                            </a>
+                        </div>
+                    </form>
+                </span>
+            </span>
         </div>
-
+        <div class="container">
+            <span class="menu-trigger">
+                <i class="menu-trigger-bar top"></i>
+                <i class="menu-trigger-bar middle"></i>
+                <i class="menu-trigger-bar bottom"></i>
+            </span>
+            <span class="close-trigger">
+                <i class="close-trigger-bar left"></i>
+                <i class="close-trigger-bar right"></i>
+            </span>
+            <span class="logo">
+                <span>
+                    <div class="headings">
+                        Select Columns
+                    </div>
+                    <form id="myForm" action="/select_columns/{{ filename }}" method="post">
+                        <div class="container">
+                            <h1>Select Source</h1>
+                            {% for column in columns %}
+                            <div class="radio-input">
+                                <label class="label">
+                                    <input type="radio" id="src_{{ column }}" name="src" value="{{ column }}">
+                                    <span class="check"></span>
+                                </label>
+                                <label for="src_{{ column }}" class="txt">{{ column }}</label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="container">
+                            <h1>Select Destination</h1>
+                            {% for column in columns %}
+                            <div class="radio-input">
+                                <label class="label">
+                                    <input type="radio" id="dest_{{ column }}" name="dest" value="{{ column }}">
+                                    <span class="check"></span>
+                                </label>
+                                <label for="dest_{{ column }}" class="txt">{{ column }}</label>
+                            </div>
+                            {% endfor %}
+                        </div>
+        
+                        <div class="container">
+                            <h1>Select Edge Info</h1>
+                            {% for column in columns %}
+                            <div class="checkbox-input">
+                                <label class="label">
+                                    <input type="checkbox" id="edge_{{ column }}" name="columns" value="{{ column }}">
+                                    <span class="check"></span>
+                                </label>
+                                <label for="edge_{{ column }}" class="txt">{{ column }}</label>
+                            </div>
+                            {% endfor %}
+                        </div>
+        
+                        <div class="form-row submit-btn">
+                            <a class="fancy">
+                                <span class="top-key"></span>
+                                <span class="text">
+                                    <input type="submit" value="Submit" class="submit-input">
+                                </span>
+                                <span class="bottom-key-1"></span>
+                                <span class="bottom-key-2"></span>
+                            </a>
+                        </div>
+                    </form>
+                </span>
+            </span>
+        </div>
+        
     </div>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
 
-    <script src="{{ url_for('static', filename='index.js') }}"></script>
+    <script>
+        function toggleDarkMode() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            document.cookie = `theme=${newTheme}; path=/`;
+        }
 
+        // Load the initial theme from cookies
+        document.addEventListener('DOMContentLoaded', () => {
+            const cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                const [name, value] = cookie.trim().split('=');
+                if (name === 'theme') {
+                    document.documentElement.setAttribute('data-theme', value);
+                    break;
+                }
+            }
+        });
+
+        function toggleFunctionFields() {
+            const findPathFields = document.getElementById("findPathFields");
+            findPathFields.classList.toggle("hidden", !document.getElementById("find").checked);
+        }
+    </script>
 </body>
 
 </html>
