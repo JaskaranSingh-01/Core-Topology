@@ -24,8 +24,13 @@ G=nx.read_gml('./Data/examplenet.gml')
 location1 = 'templates/files'
 location2 = 'templates/non_display_files'
 # appending a script tag to the .html files
-module.chk_files(location1)
-module.chk_files(location2)
+def chk_files(location):
+    for filename in os.listdir(location):  # Assuming os.listdir is used to get filenames
+        file_path = os.path.join(location, filename)
+        with open(file_path, 'r', encoding="utf-8") as file:
+            # Perform operations on the file content (e.g., appending script tags)
+            module.chk_files(location1)
+            module.chk_files(location2)
 
 #  =======uganda file=======
 file1 = './Data/GDC_NPO_CS_DASH_Counter_CNRH_UG_Part1.csv'
@@ -109,7 +114,8 @@ def index():
 
         return render_template('non_display_files/a.html')
             
-    return render_template('index.html',files=lookup,files_uganda_1 = list_options_u1,files_uganda_2 = list_options_u2,files_zim_1 = list_options_z1,files_zim_2 =list_options_z2)
+    return render_template('upload.html',files=lookup,files_uganda_1 = list_options_u1,files_uganda_2 = list_options_u2,files_zim_1 = list_options_z1,files_zim_2 =list_options_z2)
+
 
 @app.route("/process",methods = ['GET','POST'])
 def process():
