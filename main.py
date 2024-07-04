@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request ,jsonify
+from flask import Flask, render_template, request , redirect, url_for
 import pandas as pd
 import networkx as nx
 import os
@@ -63,6 +63,15 @@ app = Flask(__name__)
 @app.route('/', methods=['GET','POST'])
 def index():
     if request.method == 'POST':
+        if 'file' not in request.files:
+            return redirect(request.url)
+        file = request.files['file']
+        if file.filename == '':
+            return render_template("index.html")
+        if file:
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(filepath)
+            return redirect(url_for('select_columns', filename=file.filename))
         value=request.form.get('Function')
         if value == 'V':
             return render_template('files/examplenet.html')
@@ -110,6 +119,60 @@ def index():
         return render_template('non_display_files/a.html')
             
     return render_template('index.html',files=lookup,files_uganda_1 = list_options_u1,files_uganda_2 = list_options_u2,files_zim_1 = list_options_z1,files_zim_2 =list_options_z2)
+
+
+app.config['UPLOAD_FOLDER'] = './uploads'
+
+@app.route('/select_columns/<filename>', methods=['GET', 'POST'])
+def select_columns(filename):
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    df = pd.read_excel(filepath) if filename.endswith('.xlsx') else pd.read_csv(filepath)
+
+    df = df.astype(str)
+    df = df.drop_duplicates()
+    columns = df.columns.tolist()
+    
+    if request.method == 'POST':
+        selected_columns = request.form.getlist('columns')
+        source = request.form.get('src')
+        destination = request.form.get('dest')
+        g = nx.MultiDiGraph()
+        edge_label = []
+        for idx in range(len(selected_columns)):
+            edge_label.append(selected_columns[idx])
+        table_nodes = []
+        table_edges = []
+        dataOfEdges = ['source', 'target']
+        for i in range(len(selected_columns)):
+            dataOfEdges.append(selected_columns[i])
+        for idx, row in df.iterrows():
+            node_data = {
+                "Node": row[source]
+            }
+            table_nodes.append(node_data)
+
+            node_data = {
+                "Node": row[destination]
+            }
+            table_nodes.append(node_data)
+            
+            edge_data = {
+                'source': row[source],
+                'target': row[destination]
+            }
+            
+            for i in range(len(selected_columns)):
+                edge_data[selected_columns[i]] = row[selected_columns[i]]
+            table_edges.append(edge_data)
+            
+        g = tables_to_graph(table_nodes, table_edges, node_col="Node", node_data=["Node"], edge_data=dataOfEdges, directed=True)
+        Sigma.write_html(g, "./templates/output/" + filename.replace(' ', "").replace('-', '').split('.')[0] + '.html', fullscreen=True, clickable_edges=True, node_size=g.degree, node_color='red', raw_edge_color='color')
+        module.chk_files('./templates/output')
+        return render_template('output/' + filename.replace(' ', "").replace('-', '').split('.')[0] + '.html', columns=selected_columns)
+    
+    return render_template('select_columns.html', columns=columns, filename=filename)
+
+
 
 @app.route("/process",methods = ['GET','POST'])
 def process():
