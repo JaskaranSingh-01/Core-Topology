@@ -61,17 +61,12 @@ for k in data_z2:
 
 app = Flask(__name__)
 @app.route('/', methods=['GET','POST'])
-def index():
+def ind():
+    return render_template('index.html')
+
+@app.route('/form1', methods=['GET','POST'])
+def form1():
     if request.method == 'POST':
-        if 'file' not in request.files:
-            return redirect(request.url)
-        file = request.files['file']
-        if file.filename == '':
-            return render_template("index.html")
-        if file:
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-            file.save(filepath)
-            return redirect(url_for('select_columns', filename=file.filename))
         value=request.form.get('Function')
         if value == 'V':
             return render_template('files/examplenet.html')
@@ -120,6 +115,9 @@ def index():
             
     return render_template('index.html',files=lookup,files_uganda_1 = list_options_u1,files_uganda_2 = list_options_u2,files_zim_1 = list_options_z1,files_zim_2 =list_options_z2)
 
+@app.route('./form2',methods=['GET','POST'])
+def form2():
+    
 
 app.config['UPLOAD_FOLDER'] = './uploads'
 
@@ -174,7 +172,7 @@ def select_columns(filename):
 
 
 
-@app.route("/process",methods = ['GET','POST'])
+@app.route("/form1/process",methods = ['GET','POST'])
 def process():
     data = request.get_json()
     name_list = []
