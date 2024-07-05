@@ -28,7 +28,7 @@ window.onchange = function () {
     var e = document.getElementsByClassName('ipysigma-information-contents')
     var node = e.item(0).getElementsByTagName('i')[0].innerText
     $.ajax({
-        url: '/process',
+        url: '/form1/process',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({ 'value': node }),
@@ -55,7 +55,7 @@ window.onchange = function () {
         //     }
         // });
         // Alternatively, you can use: window.location.href = "/ugandabasic/process";
-        window.open("/process");
+        window.open("/submit/process");
     }
 
     

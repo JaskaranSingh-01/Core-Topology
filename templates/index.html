@@ -29,6 +29,7 @@
 
         .container {
             margin-top: 20px;
+            height: fit-content;
         }
 
         .hidden {
@@ -160,7 +161,7 @@
                     <div class="headings">
                         Select Visualization
                     </div>
-                    <form id="myForm" action="." target="_blank" method="post">
+                    <form id="myForm" action="/form1" target="_blank" method="post">
                         <div class="radio-input">
                             <label class="label">
                                 <input type="radio" id="vis" name="Function" value="V" onclick="toggleFunctionFields()">
@@ -427,7 +428,7 @@
         </div>
         <div class="right">
             <div class="container">
-                <form id="upload-form" action="/" target="_blank" method="post" enctype="multipart/form-data">
+                <form id="upload-form" action="/form2" target="_blank" method="post" enctype="multipart/form-data">
                     <h3>upload file</h3>
                     <div class="drag-area">
                         <div class="icon">
@@ -441,7 +442,59 @@
                     </div>
                 </form>
             </div>
-            <div class="container"></div>
+            <!-- <div class="container">
+                <span>
+                    <div class="headings">
+                        Select Visualization
+                    </div>
+                    <form id="Form-2" action="." target="_blank" method="post">
+            
+                        <div class="radio-input">
+                            <label class="label">
+                                <input type="radio" id="find_ideal_path_in_bytellldp" name="Function-form-2" value="value_of_bytellldp-form-2"
+                                    onclick="toggleFunctionFields()">
+                                <span class="check"></span>
+                            </label>
+                            <label for="find_ideal_path_in_bytellldp" class="txt"> Find Ideal Path [Bytellldp]</label>
+                        </div>
+
+                        <div id="ideal_path_in_bytellldp" class="hidden txt">
+                            <div class="form-row">
+                                <div class="form-control">
+                                    <input type="text" name="bytellldp_source" id="bytellldp_source">
+                                    <label>
+                                        <span style="transition-delay:0ms">S</span><span
+                                            style="transition-delay:50ms">o</span><span
+                                            style="transition-delay:100ms">u</span><span
+                                            style="transition-delay:150ms">r</span><span
+                                            style="transition-delay:200ms">c</span><span
+                                            style="transition-delay:250ms">e</span><span style="transition-delay:300ms">
+                                        </span><span style="transition-delay:350ms">N</span><span
+                                            style="transition-delay:400ms">o</span><span
+                                            style="transition-delay:450ms">d</span><span
+                                            style="transition-delay:500ms">e</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-row submit-btn">
+                            <a class="fancy">
+                                <span class="top-key"></span>
+                                <span class="text">
+                                    <input type="submit" value="Submit"
+                                        style="background: transparent; border: none; color: rgb(255, 255, 255); font-size: 1.125em; line-height: 1.33333em; text-transform: uppercase; cursor: pointer; padding-left: 2em; width: 200px;">
+                                </span>
+                                <span class="bottom-key-1"></span>
+                                <span class="bottom-key-2"></span>
+                            </a>
+                        </div>
+
+                    </form>
+                </span>
+
+            </div> -->
         </div>
     </div>
     <script src="{{ url_for('static', filename='upload.js') }}"></script>
