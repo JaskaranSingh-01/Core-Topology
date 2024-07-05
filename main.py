@@ -115,7 +115,7 @@ def form1():
             
     return render_template('index.html',files=lookup,files_uganda_1 = list_options_u1,files_uganda_2 = list_options_u2,files_zim_1 = list_options_z1,files_zim_2 =list_options_z2)
 
-@app.route('./form2',methods=['GET','POST'])
+@app.route('/form2',methods=['GET','POST'])
 def form2():
     if request.method == 'POST':
         if 'file' not in request.files:
