@@ -117,7 +117,16 @@ def form1():
 
 @app.route('./form2',methods=['GET','POST'])
 def form2():
-    
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            return redirect(request.url)
+        file = request.files['file']
+        if file.filename == '':
+            return render_template("index.html")
+        if file:
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(filepath)
+            return redirect(url_for('select_columns', filename=file.filename))
 
 app.config['UPLOAD_FOLDER'] = './uploads'
 
