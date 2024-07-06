@@ -62,7 +62,7 @@ for k in data_z2:
 app = Flask(__name__)
 @app.route('/', methods=['GET','POST'])
 def ind():
-    return render_template('index.html')
+    return render_template('index.html',files=lookup,files_uganda_1 = list_options_u1,files_uganda_2 = list_options_u2,files_zim_1 = list_options_z1,files_zim_2 =list_options_z2)
 
 @app.route('/form1', methods=['GET','POST'])
 def form1():
