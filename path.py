@@ -76,6 +76,7 @@ def get_data(file):
 
     for k,v in edge_list.items():
         edge_list[k] = list(set(v))
+        edge_list[k].sort()
 
     return edge_list
     # cnt=0

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -160,7 +161,7 @@
                     <div class="headings">
                         Select Visualization
                     </div>
-                    <form id="myForm" action="." target="_blank" method="post">
+                    <form id="myForm" action="/form1" target="_blank" method="post">
                         <div class="radio-input">
                             <label class="label">
                                 <input type="radio" id="vis" name="Function" value="V" onclick="toggleFunctionFields()">
@@ -415,7 +416,83 @@
                     </div>
                 </form>
             </div>
-            <div class="container"></div>
+            <div class="container">
+                <form id="myForm-2" action="/form3" target="_blank" method="post">
+                    <div class="radio-input">
+                        <label class="label">
+                            <input type="radio" id="find_ideal_in_bytellldp" name="Function-form-3"
+                                value="ideal_value_of_bytellldp" onclick="toggleFunctionFields()">
+                            <span class="check"></span>
+                        </label>
+                        <label for="find_ideal_in_bytellldp" class="txt"> Find Ideal Path [Bytellldp]</label>
+                    </div>
+
+                    <div id="ideal_path_in_bytellldp" class="hidden txt">
+                        <div class="form-row">
+                            <div class="form-control">
+                                <input type="text" name="bytellldp_source_ideal" id="bytellldp_source_ideal">
+                                <label>
+                                    <span style="transition-delay:0ms">S</span><span
+                                        style="transition-delay:50ms">o</span><span
+                                        style="transition-delay:100ms">u</span><span
+                                        style="transition-delay:150ms">r</span><span
+                                        style="transition-delay:200ms">c</span><span
+                                        style="transition-delay:250ms">e</span><span style="transition-delay:300ms">
+                                    </span><span style="transition-delay:350ms">N</span><span
+                                        style="transition-delay:400ms">o</span><span
+                                        style="transition-delay:450ms">d</span><span
+                                        style="transition-delay:500ms">e</span>
+                                </label>
+                            </div>
+                            <div class="form-control">
+                                <input type="text" name="bytellldp_source_invalid" id="bytellldp_source_invalid">
+                                <label>
+                                    <span style="transition-delay:0ms">I</span><span
+                                        style="transition-delay:50ms">n</span><span
+                                        style="transition-delay:100ms">v</span><span
+                                        style="transition-delay:150ms">a</span><span
+                                        style="transition-delay:200ms">l</span><span
+                                        style="transition-delay:250ms">i</span><span
+                                        style="transition-delay:300ms">d</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div id="ideal_path_in_bytellldp" class="hidden txt">
+                        <div class="form-row">
+                            <div class="form-control">
+                                <input type="text" name="bytellldp_source_ideal" id="bytellldp_source_ideal">
+                                <label>
+                                    <span style="transition-delay:0ms">S</span><span
+                                        style="transition-delay:50ms">o</span><span
+                                        style="transition-delay:100ms">u</span><span
+                                        style="transition-delay:150ms">r</span><span
+                                        style="transition-delay:200ms">c</span><span
+                                        style="transition-delay:250ms">e</span><span style="transition-delay:300ms">
+                                    </span><span style="transition-delay:350ms">N</span><span
+                                        style="transition-delay:400ms">o</span><span
+                                        style="transition-delay:450ms">d</span><span
+                                        style="transition-delay:500ms">e</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div> -->
+
+
+                    <div class="form-row submit-btn">
+                        <a class="fancy">
+                            <span class="top-key"></span>
+                            <span class="text">
+                                <input type="submit" value="Submit"
+                                    style="background: transparent; border: none; color: rgb(255, 255, 255); font-size: 1.125em; line-height: 1.33333em; text-transform: uppercase; cursor: pointer; padding-left: 2em; width: 200px;">
+                            </span>
+                            <span class="bottom-key-1"></span>
+                            <span class="bottom-key-2"></span>
+                        </a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <script src="{{ url_for('static', filename='upload.js') }}"></script>

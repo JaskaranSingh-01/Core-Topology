@@ -150,29 +150,34 @@ closeTrigger.on('click', function () {
 
 function toggleFunctionFields() {
   var findPathFields = document.getElementById('findPathFields');
-  var op1 = document.getElementById('ind');
-  var op3 = document.getElementById('u22');
-  var op4 = document.getElementById('z11');
-  var op5 = document.getElementById('z22');
-  var op2 = document.getElementById('cmp');
-  var op6 = document.getElementById('path_in_bytellldp');
-
-  var findRadio = document.getElementById('find');
-  var findRadio1 = document.getElementById('individual');
-  var findRadio2 = document.getElementById('compare');
-  var findRadio3 = document.getElementById('u2');
-  var findRadio4 = document.getElementById('z1');
-  var findRadio5 = document.getElementById('z2');
-  var findRadio6 = document.getElementById('find_in_bytellldp');
-
   var desInput = document.getElementById('des');
   var srcInput = document.getElementById('src');
-  var srcInput_bytellldp = document.getElementById('bytellldp_source')
+  var srcInput_bytellldp = document.getElementById('bytellldp_source');
+  var input_ideal_bytellldp = document.getElementById('ideal_path_in_bytellldp') 
+  var src_ideal_bytellldp = document.getElementById('bytellldp_source_ideal')
+  var invalid_ideal_bytellldp = document.getElementById('bytellldp_source_invalid')
+  var findRadio = document.getElementById('find');
+  var findRadio_form_2 = document.getElementById('find_ideal_in_bytellldp');
 
-  var val = document.getElementById('option1');
-  var val2 = document.getElementById('option2');
-  var val3 = document.getElementById('option3');
-  var val4 = document.getElementById('option4');
+  var radioGroups = [
+    { radio: 'individual', option: 'ind', value: 'option1' },
+    { radio: 'compare', option: 'cmp', value: 'option2' },
+    { radio: 'u2', option: 'u22', value: 'option4' },
+    { radio: 'z1', option: 'z11' },
+    { radio: 'z2', option: 'z22' },
+    { radio: 'find_in_bytellldp', option: 'path_in_bytellldp', value: 'bytellldp_source' }
+    
+  ];
+
+  if (findRadio_form_2.checked) {
+    input_ideal_bytellldp.classList.remove('hidden');
+    src_ideal_bytellldp.setAttribute('required', 'true');
+    invalid_ideal_bytellldp.setAttribute('required', 'true');
+  } else {
+    input_ideal_bytellldp.classList.add('hidden');
+    invalid_ideal_bytellldp.removeAttribute('required');
+    src_ideal_bytellldp.removeAttribute('required');
+  }
 
   if (findRadio.checked) {
     findPathFields.classList.remove('hidden');
@@ -184,64 +189,46 @@ function toggleFunctionFields() {
     srcInput.removeAttribute('required');
   }
 
-  if (findRadio1.checked) {
-    op1.classList.remove('hidden');
-    val.setAttribute('required', 'true');
-  } else {
-    op1.classList.add('hidden');
-    val.removeAttribute('required');
-  }
+  radioGroups.forEach(group => {
+    var radio = document.getElementById(group.radio);
+    var option = document.getElementById(group.option);
+    var value = group.value ? document.getElementById(group.value) : null;
 
-  if (findRadio2.checked) {
-    val2.setAttribute('required', 'true');
-    // val3.setAttribute('required', 'true');
-    op2.classList.remove('hidden');
-  } else {
-    val2.removeAttribute('required');
-    // val3.removeAttribute('required');
-    op2.classList.add('hidden');
-  }
-  if (findRadio3.checked) {
-    val4.setAttribute('required', 'true');
-    op3.classList.remove('hidden');
-  } else {
-    val4.removeAttribute('required');
-    op3.classList.add('hidden');
-  }
-
-  if (findRadio4.checked) {
-    op4.classList.remove('hidden');
-  } else {
-    op4.classList.add('hidden');
-  }
-  if (findRadio5.checked) {
-    op5.classList.remove('hidden');
-  } else {
-    op5.classList.add('hidden');
-  }
-  if (findRadio6.checked) {
-    srcInput_bytellldp.setAttribute('required', 'true');
-    op6.classList.remove('hidden');
-  } else {
-    srcInput_bytellldp.removeAttribute('required')
-    op6.classList.add('hidden');
-  }
-
+    if (radio.checked) {
+      option.classList.remove('hidden');
+      if (value) {
+        value.setAttribute('required', 'true');
+      }
+    } else {
+      option.classList.add('hidden');
+      if (value) {
+        value.removeAttribute('required');
+      }
+    }
+  });
 }
 
 document.getElementById('myForm').addEventListener('submit', function (event) {
-  var visRadio = document.getElementById('vis');
-  var findRadio = document.getElementById('find');
-  var findRadio1 = document.getElementById('individual');
-  var findRadio2 = document.getElementById('compare');
-  var findRadio3 = document.getElementById('u2');
-  var findRadio4 = document.getElementById('find_in_bytellldp');
-  var findRadio5 = document.getElementById('show_all');
-  var findRadio6 = document.getElementById('z1');
-  var findRadio7 = document.getElementById('z2');
+  var radios = [
+    'vis', 'find', 'individual', 'compare', 'u2', 'find_in_bytellldp', 'show_all', 'z1', 'z2'
+  ];
 
-  if (!visRadio.checked && !findRadio.checked && !findRadio1.checked && !findRadio2.checked && !findRadio3.checked && !findRadio4.checked && !findRadio5.checked
-    && !findRadio6.checked && !findRadio7.checked) {
+  var isAnyChecked = radios.some(id => document.getElementById(id).checked);
+
+  if (!isAnyChecked) {
+    alert('Please select a function.');
+    event.preventDefault(); // Prevent form submission
+  }
+});
+
+document.getElementById('myForm-2').addEventListener('submit', function (event) {
+  var radios = [
+    'find_ideal_in_bytellldp'
+  ];
+
+  var isAnyChecked = radios.some(id => document.getElementById(id).checked);
+
+  if (!isAnyChecked) {
     alert('Please select a function.');
     event.preventDefault(); // Prevent form submission
   }
