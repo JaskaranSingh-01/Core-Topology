@@ -130,6 +130,21 @@ def form2():
 
 app.config['UPLOAD_FOLDER'] = './uploads'
 
+@app.route('/form3', methods=['GET', 'POST'])
+def form3():
+    if request.method=='POST':
+        value = request.form.get('Function-form-3')
+        if value == 'ideal_value_of_bytellldp':
+            src = request.form.get('bytellldp_source_ideal');
+            invalid = request.form.get('bytellldp_source_invalid');
+            paths = path.get_all_paths(src,edge_data_bytelldp)
+            ideal_path = path.get_ideal_path(invalid,paths)
+            if len(ideal_path) == 0:
+                return "No Ideal paht exists"
+            path.draw_paths2(ideal_path)
+            return render_template('non_display_files/bytellldp.html')
+            
+
 @app.route('/select_columns/<filename>', methods=['GET', 'POST'])
 def select_columns(filename):
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)

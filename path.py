@@ -9,6 +9,16 @@ import os
 # ws = wb.active # creates a worksheet object.
 
 
+def type_of_node(node):
+    node_type = ""
+    for i in node:
+        if i>='A' and i<='Z':
+            node_type+=i
+            # print(i)
+        else:
+            break
+    return node_type
+
 
 def dfs(node ,edge_list,path_list,x):
     path_list.append(node)
@@ -22,11 +32,22 @@ def dfs(node ,edge_list,path_list,x):
     path_list.pop()
 
 
+
 def get_all_paths(src,edge_list):
     x = []
     path_list =[]
     dfs(src,edge_list,path_list,x)
     return x
+
+def get_ideal_path(invalid_node,paths):
+    x = []
+    for item in paths:
+        if invalid_node not in item:
+            x.append(item[:])
+            print(x)
+            break
+    return x
+
 
 def get_data(file):
 
@@ -76,7 +97,21 @@ def get_data(file):
 
     for k,v in edge_list.items():
         edge_list[k] = list(set(v))
-
+        edge_list[k].sort()
+        similar_nodes = []
+        different_nodes = []
+        for node in edge_list[k]:
+            type_of_key = type_of_node(k)
+            type_of_node_in_path= type_of_node(node)
+            if type_of_node_in_path == type_of_key:
+                similar_nodes.append(node)
+            else:
+                different_nodes.append(node)
+        edge_list[k] = []
+        for node in different_nodes:
+            edge_list[k].append(node)
+        for node in similar_nodes:
+            edge_list[k].append(node)
     return edge_list
     # cnt=0
     # for i in source_list:
@@ -204,4 +239,4 @@ def draw_paths2(paths):
         # Delete the file if it exists
         os.remove(html_file_path)
     # Write the HTML file
-    nt.write_html(html_file_path)
+    nt.write_html(html_file_path)    

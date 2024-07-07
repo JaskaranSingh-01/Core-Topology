@@ -153,8 +153,11 @@ function toggleFunctionFields() {
   var desInput = document.getElementById('des');
   var srcInput = document.getElementById('src');
   var srcInput_bytellldp = document.getElementById('bytellldp_source');
-
+  var input_ideal_bytellldp = document.getElementById('ideal_path_in_bytellldp') 
+  var src_ideal_bytellldp = document.getElementById('bytellldp_source_ideal')
+  var invalid_ideal_bytellldp = document.getElementById('bytellldp_source_invalid')
   var findRadio = document.getElementById('find');
+  var findRadio_form_2 = document.getElementById('find_ideal_in_bytellldp');
 
   var radioGroups = [
     { radio: 'individual', option: 'ind', value: 'option1' },
@@ -163,7 +166,18 @@ function toggleFunctionFields() {
     { radio: 'z1', option: 'z11' },
     { radio: 'z2', option: 'z22' },
     { radio: 'find_in_bytellldp', option: 'path_in_bytellldp', value: 'bytellldp_source' }
+    
   ];
+
+  if (findRadio_form_2.checked) {
+    input_ideal_bytellldp.classList.remove('hidden');
+    src_ideal_bytellldp.setAttribute('required', 'true');
+    invalid_ideal_bytellldp.setAttribute('required', 'true');
+  } else {
+    input_ideal_bytellldp.classList.add('hidden');
+    invalid_ideal_bytellldp.removeAttribute('required');
+    src_ideal_bytellldp.removeAttribute('required');
+  }
 
   if (findRadio.checked) {
     findPathFields.classList.remove('hidden');
@@ -197,6 +211,19 @@ function toggleFunctionFields() {
 document.getElementById('myForm').addEventListener('submit', function (event) {
   var radios = [
     'vis', 'find', 'individual', 'compare', 'u2', 'find_in_bytellldp', 'show_all', 'z1', 'z2'
+  ];
+
+  var isAnyChecked = radios.some(id => document.getElementById(id).checked);
+
+  if (!isAnyChecked) {
+    alert('Please select a function.');
+    event.preventDefault(); // Prevent form submission
+  }
+});
+
+document.getElementById('myForm-2').addEventListener('submit', function (event) {
+  var radios = [
+    'find_ideal_in_bytellldp'
   ];
 
   var isAnyChecked = radios.some(id => document.getElementById(id).checked);

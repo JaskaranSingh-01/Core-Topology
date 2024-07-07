@@ -9,14 +9,20 @@ button.onclick = () => {
     input.click();
 };
 
-input.addEventListener('change', function() {
+input.addEventListener('change', function () {
+    let validExtension = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'text/csv'];
     file = this.files[0];
-    dragArea.classList.add('active');
-
-    // Ensure the file chooser is closed before submitting the form
-    setTimeout(function() {
-        document.getElementById('upload-form').submit();
-    }, 100); // Adjust the delay as needed
+    let fileType = file.type;
+    if (validExtension.includes(fileType)) {
+        dragArea.classList.add('active');
+        // Ensure the file chooser is closed before submitting the form
+        setTimeout(function () {
+            document.getElementById('upload-form').submit();
+        }, 100); // Adjust the delay as needed
+    } else {
+        alert("Upload a valid file");
+        dragArea.classList.remove('active');
+    }
 });
 
 dragArea.addEventListener('dragover', (e) => {
@@ -37,22 +43,22 @@ dragArea.addEventListener('drop', (e) => {
     let fileType = file.type;
     let validExtension = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'text/csv'];
 
-    if(validExtension.includes(fileType)) {
+    if (validExtension.includes(fileType)) {
         let fileReader = new FileReader();
         fileReader.onload = () => {
             let fileURL = fileReader.result;
         };
         fileReader.readAsDataURL(file);
-        
+
         // Create a new DataTransfer object and append the file to it
         let dataTransfer = new DataTransfer();
         dataTransfer.items.add(file);
-        
+
         // Assign the DataTransfer object to the input element
         input.files = dataTransfer.files;
-        
+
         // Ensure the file chooser is closed before submitting the form
-        setTimeout(function() {
+        setTimeout(function () {
             document.getElementById('upload-form').submit();
         }, 100); // Adjust the delay as needed
     } else {
