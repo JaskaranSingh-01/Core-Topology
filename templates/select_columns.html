@@ -1,25 +1,278 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select Columns</title>
+    <title>Column Selection Form</title>
+
+    <style>
+        body {
+            display: block;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+
+        .container {
+            flex: 1;
+            margin: 0 10px;
+            background-color: #222222;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0px 9px 13px 0px rgba(0, 0, 0, 0.3);
+            transform: scale(1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .radio-input .label input {
+            display: none;
+        }
+
+        .radio-input {
+            display: flex;
+            gap: 20px;
+            padding: 0.5rem 1rem;
+            flex-wrap: wrap;
+        }
+
+        .radio-input .label {
+            display: flex;
+        }
+
+        .radio-input .label .check {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 3px solid transparent;
+            box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5),
+                -1px -1px 4px rgba(255, 255, 255, 0.5);
+        }
+
+        .radio-input .label input:checked+.check {
+            box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5),
+                -1px -1px 4px rgba(255, 255, 255, 0.5),
+                inset 3px 3px 6px rgba(0, 0, 0, 0.5),
+                inset -1px -1px 4px rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
+        }
+
+        /* Dark Mode Styles */
+        :root {
+            --background-color: #ffffff;
+            --text-color: #000000;
+        }
+
+        [data-theme="dark"] {
+            --background-color: #121212;
+            --text-color: #ffffff;
+        }
+
+        .dark-mode-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: var(--background-color);
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-control {
+            position: relative;
+            margin: 20px 3%;
+            width: 45%;
+            background-color: inherit;
+            border: none;
+        }
+
+        .form-control input {
+            background-color: transparent;
+            border: 0;
+            border-bottom: 2px #1a1717 solid;
+            display: block;
+            width: 100%;
+            padding: 15px 0;
+            font-size: 18px;
+            color: #ffffff;
+        }
+
+        .form-control input:focus,
+        .form-control input:valid {
+            outline: 0;
+            border-bottom-color: rgb(192, 228, 240);
+        }
+
+        .form-control label {
+            position: absolute;
+            top: 15px;
+            left: 3%;
+            pointer-events: none;
+        }
+
+        .form-control label span {
+            display: inline-block;
+            font-size: 18px;
+            min-width: 5px;
+            color: white;
+            transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .form-control input:focus+label span,
+        .form-control input:valid+label span {
+            color: rgb(255, 255, 255);
+            transform: translateY(-30px);
+        }
+
+        .submit-input {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.125em;
+            line-height: 1.33333em;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+
+        .radio-input {
+            margin: 10px 0;
+        }
+
+        .label {
+            display: flex;
+            align-items: center;
+        }
+
+        .check {
+            width: 16px;
+            height: 16px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+        }
+
+        .txt {
+            font-size: 16px;
+        }
+
+        .submit-btn {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .fancy {
+            display: inline-block;
+            position: relative;
+            padding: 10px 20px;
+            background-color: black;
+            color: white;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .fancy:hover {
+            background-color: #333;
+        }
+
+        .fancy .text {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    <form action="/select_columns/{{ filename }}"  target="_blank" method="post">
-        <h1>Select Source</h1>
-        {% for column in columns %}
-            <input type="radio" name="src" value="{{ column }}"> {{ column }}<br>
-        {% endfor %}
-        <h1>Select Destination </h1>
-        {% for column in columns %}
-            <input type="radio" name="dest" value="{{ column }}"> {{ column }}<br>
-        {% endfor %}
-        <h1>Select Edge Info</h1>
-        {% for column in columns %}
-            <input type="checkbox" name="columns" value="{{ column }}"> {{ column }}<br>
-        {% endfor %}
-        <input type="submit" value="Submit">
-    </form>
+    <div class="container">
+        <span class="menu-trigger">
+            <i class="menu-trigger-bar top"></i>
+            <i class="menu-trigger-bar middle"></i>
+            <i class="menu-trigger-bar bottom"></i>
+        </span>
+        <span class="close-trigger">
+            <i class="close-trigger-bar left"></i>
+            <i class="close-trigger-bar right"></i>
+        </span>
+        <span class="logo">
+            <span>
+                <div class="headings">
+                    Select Columns
+                </div>
+                <form id="myForm" action="/select_columns/{{ filename }}" method="post">
+                    <div class="container">
+                        <h1>Select Source</h1>
+                        {% for column in columns %}
+                        <div class="radio-input">
+                            <label class="label">
+                                <input type="radio" id="src_{{ column }}" name="src" value="{{ column }}">
+                                <span class="check"></span>
+                            </label>
+                            <label for="src_{{ column }}" class="txt">{{ column }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="container">
+                        <h1>Select Destination</h1>
+                        {% for column in columns %}
+                        <div class="radio-input">
+                            <label class="label">
+                                <input type="radio" id="dest_{{ column }}" name="dest" value="{{ column }}">
+                                <span class="check"></span>
+                            </label>
+                            <label for="dest_{{ column }}" class="txt">{{ column }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+    
+                    <div class="container">
+                        <h1>Select Edge Info</h1>
+                        {% for column in columns %}
+                        <div class="checkbox-input">
+                            <label class="label">
+                                <input type="checkbox" id="edge_{{ column }}" name="columns" value="{{ column }}">
+                                <span class="check"></span>
+                            </label>
+                            <label for="edge_{{ column }}" class="txt">{{ column }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+    
+                    <div class="form-row submit-btn">
+                        <a class="fancy">
+                            <span class="top-key"></span>
+                            <span class="text">
+                                <input type="submit" value="Submit" class="submit-input">
+                            </span>
+                            <span class="bottom-key-1"></span>
+                            <span class="bottom-key-2"></span>
+                        </a>
+                    </div>
+                </form>
+            </span>
+        </span>
+    </div>
 </body>
 </html>
