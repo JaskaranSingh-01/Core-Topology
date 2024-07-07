@@ -138,25 +138,10 @@ def form3():
             src = request.form.get('bytellldp_source_ideal');
             invalid = request.form.get('bytellldp_source_invalid');
             paths = path.get_all_paths(src,edge_data_bytelldp)
-            ideal_paths=[]
-            for item in paths:
-                dont_take=0
-                if invalid not in item:
-                    prev = "-1"
-                    for node in item:
-                        if prev != "-1":
-                            if node[0:2]==prev[0:2]:
-                                dont_take=1
-                                break
-                        prev=node
-                    if dont_take==1:
-                        continue
-                    ideal_paths.append(item)
-                    break;
-            module.chk_files('./template/non_display_files')
-            path.draw_paths2(ideal_paths)
-            if len(ideal_paths) == 0:
+            ideal_path = path.get_ideal_path(invalid,paths)
+            if len(ideal_path) == 0:
                 return "No Ideal paht exists"
+            path.draw_paths2(ideal_path)
             return render_template('non_display_files/bytellldp.html')
             
 
