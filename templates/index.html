@@ -368,32 +368,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="radio-input">
-                            <label class="label">
-                                <input type="radio" id="ideal_path_radio" name="Function" value="ideal_path" onclick="toggleFunctionFields()">
-                                <span class="check"></span>
-                            </label>
-                            <label for="ideal_path_radio" class="txt"> Find Ideal Path</label>
-                        </div>
-                        <div id="ideal_path_fields" class="hidden txt">
-                            <div class="form-row">
-                                <div class="form-control">
-                                    <input type="text" name="ideal_src" id="ideal_src">
-                                    <label>
-                                        <span style="transition-delay:0ms">S</span><span style="transition-delay:50ms">o</span><span style="transition-delay:100ms">u</span><span style="transition-delay:150ms">r</span><span style="transition-delay:200ms">c</span><span style="transition-delay:250ms">e</span><span style="transition-delay:300ms"> </span><span style="transition-delay:350ms">N</span><span style="transition-delay:400ms">o</span><span style="transition-delay:450ms">d</span><span style="transition-delay:500ms">e</span>
-                                    </label>
-                                </div>
-                                <div class="form-control">
-                                    <input type="text" name="ideal_src" id="ideal_src">
-                                    <label>
-                                        <span style="transition-delay:0ms">I</span><span style="transition-delay:50ms">N</span><span style="transition-delay:100ms">A</span><span style="transition-delay:150ms">C</span><span style="transition-delay:200ms">T</span><span style="transition-delay:250ms">I</span><span style="transition-delay:250ms"> </span><span style="transition-delay:250ms">V</span><span style="transition-delay:400ms">E</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        
-
-                        
 
 
                         <div class="form-row submit-btn">
@@ -495,47 +469,12 @@
                 </span>
 
             </div> -->
+            
         </div>
     </div>
     <script src="{{ url_for('static', filename='upload.js') }}"></script>
     <script src="{{ url_for('static', filename='index.js') }}"></script>
 
 </body>
-<script>
-    function toggleFunctionFields() {
-        var radios = document.querySelectorAll('input[type=radio][name=Function]');
-        var fieldsToToggle = {
-            'find': 'findPathFields',
-            'individual': 'ind',
-            'compare': 'cmp',
-            'u2': 'u22',
-            'z1': 'z11',
-            'z2': 'z22',
-            'value_of_bytellldp': 'path_in_bytellldp',
-            'ideal_path': 'ideal_path_fields'
-        };
-    
-        for (var key in fieldsToToggle) {
-            if (fieldsToToggle.hasOwnProperty(key)) {
-                document.getElementById(fieldsToToggle[key]).classList.add('hidden');
-            }
-        }
-    
-        radios.forEach(radio => {
-            if (radio.checked && fieldsToToggle[radio.value]) {
-                document.getElementById(fieldsToToggle[radio.value]).classList.remove('hidden');
-            }
-        });
-    }
-    
-    document.addEventListener('DOMContentLoaded', (event) => {
-        var radios = document.querySelectorAll('input[type=radio][name=Function]');
-        radios.forEach(radio => {
-            radio.addEventListener('change', toggleFunctionFields);
-        });
-        toggleFunctionFields(); // Run on page load to set the correct initial state
-    });
-    </script>
-    
 
 </html>
