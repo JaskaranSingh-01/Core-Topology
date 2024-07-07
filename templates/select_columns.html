@@ -28,6 +28,7 @@
             padding: 20px;
             box-shadow: 0px 9px 13px 0px rgba(0, 0, 0, 0.3);
             transform: scale(1);
+            
         }
 
         .hidden {
@@ -36,6 +37,7 @@
 
         .radio-input .label input {
             display: none;
+            
         }
 
         .radio-input {
@@ -43,10 +45,12 @@
             gap: 20px;
             padding: 0.5rem 1rem;
             flex-wrap: wrap;
+            color: white;
         }
 
         .radio-input .label {
             display: flex;
+            
         }
 
         .radio-input .label .check {
@@ -61,6 +65,7 @@
             border: 3px solid transparent;
             box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5),
                 -1px -1px 4px rgba(255, 255, 255, 0.5);
+           
         }
 
         .radio-input .label input:checked+.check {
@@ -69,6 +74,7 @@
                 inset 3px 3px 6px rgba(0, 0, 0, 0.5),
                 inset -1px -1px 4px rgba(255, 255, 255, 0.5);
             transform: scale(1.1);
+            
         }
 
         /* Dark Mode Styles */
@@ -100,6 +106,7 @@
             width: 45%;
             background-color: inherit;
             border: none;
+            
         }
 
         .form-control input {
@@ -213,9 +220,18 @@
             background-color: var(--background-color);
             color: var(--text-color);
         }
+        .form-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+        }
+        
     </style>
 </head>
 <body>
+    <div class="form-wrapper">
     
     <div class="container">
         <span class="menu-trigger">
@@ -286,5 +302,6 @@
             </span>
         </span>
     </div>
+</div>
 </body>
 </html>
