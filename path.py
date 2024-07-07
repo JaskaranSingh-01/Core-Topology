@@ -43,7 +43,8 @@ def get_ideal_path(invalid_node,paths):
     x = []
     for item in paths:
         if invalid_node not in item:
-            x.append(item)
+            x.append(item[:])
+            print(x)
             break
     return x
 
@@ -96,6 +97,7 @@ def get_data(file):
 
     for k,v in edge_list.items():
         edge_list[k] = list(set(v))
+        edge_list[k].sort()
         similar_nodes = []
         different_nodes = []
         for node in edge_list[k]:

@@ -11,11 +11,10 @@ button.onclick = () => {
 
 input.addEventListener('change', function () {
     let validExtension = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'text/csv'];
-
+    file = this.files[0];
+    let fileType = file.type;
     if (validExtension.includes(fileType)) {
-        file = this.files[0];
         dragArea.classList.add('active');
-
         // Ensure the file chooser is closed before submitting the form
         setTimeout(function () {
             document.getElementById('upload-form').submit();
