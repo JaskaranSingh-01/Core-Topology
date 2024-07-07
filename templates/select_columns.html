@@ -21,8 +21,10 @@
         .container {
             flex: 1;
             margin: 0 10px;
+            text-align: center;
             background-color: #222222;
             border-radius: 8px;
+            width: 40%;
             padding: 20px;
             box-shadow: 0px 9px 13px 0px rgba(0, 0, 0, 0.3);
             transform: scale(1);
@@ -202,9 +204,19 @@
         .fancy .text {
             display: block;
         }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
     </style>
 </head>
 <body>
+    
     <div class="container">
         <span class="menu-trigger">
             <i class="menu-trigger-bar top"></i>
