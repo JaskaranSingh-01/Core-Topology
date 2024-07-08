@@ -1,5 +1,7 @@
 <html>
     <head>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <title>Core Topology</title>
         <meta charset="utf-8">
         
             <script>function neighbourhoodHighlight(params) {
@@ -461,8 +463,8 @@ function highlightFilter(filter) {
                   
 
                   // parsing and collecting nodes and edges from the python
-                  nodes = new vis.DataSet([{"color": "green", "font": {"color": "white"}, "id": "X15255", "label": "X15255", "shape": "dot", "size": 10}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "CSG005002", "label": "CSG005002", "shape": "dot", "size": 10}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "CTR08-LIS-91", "label": "CTR08-LIS-91", "shape": "dot", "size": 10}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "OAR03-LIS-91", "label": "OAR03-LIS-91", "shape": "dot", "size": 10}, {"color": "red", "font": {"color": "white"}, "id": "BTR01-MAS", "label": "BTR01-MAS", "shape": "dot", "size": 10}]);
-                  edges = new vis.DataSet([{"arrows": "to", "color": "lightblue", "from": "X15255", "to": "CSG005002", "width": 1}, {"arrows": "to", "color": "lightblue", "from": "CSG005002", "to": "CTR08-LIS-91", "width": 1}, {"arrows": "to", "color": "lightblue", "from": "CTR08-LIS-91", "to": "OAR03-LIS-91", "width": 1}, {"arrows": "to", "color": "lightblue", "from": "OAR03-LIS-91", "to": "BTR01-MAS", "width": 1}]);
+                  nodes = new vis.DataSet([{"color": "green", "font": {"color": "white"}, "id": "X15255", "label": "X15255", "shape": "dot", "size": 10}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "CSG005002", "label": "CSG005002", "shape": "dot", "size": 10}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "CTR07-LIS-91", "label": "CTR07-LIS-91", "shape": "dot", "size": 10}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "OAR03-LIS-91", "label": "OAR03-LIS-91", "shape": "dot", "size": 10}, {"color": "red", "font": {"color": "white"}, "id": "BTR01-MAS", "label": "BTR01-MAS", "shape": "dot", "size": 10}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "lightblue", "from": "X15255", "to": "CSG005002", "width": 1}, {"arrows": "to", "color": "lightblue", "from": "CSG005002", "to": "CTR07-LIS-91", "width": 1}, {"arrows": "to", "color": "lightblue", "from": "CTR07-LIS-91", "to": "OAR03-LIS-91", "width": 1}, {"arrows": "to", "color": "lightblue", "from": "OAR03-LIS-91", "to": "BTR01-MAS", "width": 1}]);
 
                   nodeColors = {};
                   allNodes = nodes.get({ returnType: "Object" });

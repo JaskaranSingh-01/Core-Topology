@@ -4,6 +4,49 @@ from pelote import tables_to_graph
 from ipysigma import Sigma
 import plotly.graph_objects as go
 
+import re
+
+# Function to update the HTML content
+def update_html_content(content, title, favicon):
+    # Define patterns for <title> and <link rel="icon"> tags
+    title_pattern = re.compile(r'<title>.*?</title>', re.IGNORECASE)
+    favicon_pattern = re.compile(r'<link.*?rel="icon".*?>', re.IGNORECASE)
+
+    # Define the new tags
+    new_title_tag = f'<title>{title}</title>'
+    new_favicon_tag = f'<link rel="icon" type="image/x-icon" href="{favicon}">'
+
+    # Replace or add the <title> tag
+    if title_pattern.search(content):
+        content = title_pattern.sub(new_title_tag, content)
+    else:
+        content = content.replace('<head>', f'<head>\n    {new_title_tag}', 1)
+
+    # Replace or add the <link rel="icon"> tag
+    if favicon_pattern.search(content):
+        content = favicon_pattern.sub(new_favicon_tag, content)
+    else:
+        content = content.replace('<head>', f'<head>\n    {new_favicon_tag}', 1)
+
+    return content
+
+# Function to process each HTML file
+def process_html_files(directory, title, favicon):
+    for root, _, files in os.walk(directory):
+        for file in files:
+            if file.endswith('.html'):
+                file_path = os.path.join(root, file)
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                
+                # Update the HTML content
+                new_content = update_html_content(content, title, favicon)
+                
+                # Write the updated content back to the file
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    f.write(new_content)
+                
+                print(f'Updated {file_path}')
 
 def valid_paths(file_name):
     path_list = {}

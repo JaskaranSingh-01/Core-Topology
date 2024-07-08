@@ -66,3 +66,13 @@ dragArea.addEventListener('drop', (e) => {
         dragArea.classList.remove('active');
     }
 });
+
+function resetUploadArea() {
+    // Reset the file input
+    input.value = '';
+    // Reset the drag area text and class
+    dragText.textContent = "Drag and Drop.";
+    dragArea.classList.remove("active");
+    // Optionally, reset any other form fields if needed
+    document.getElementById('upload-form').reset();
+}

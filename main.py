@@ -8,6 +8,14 @@ import module
 import path
 
 
+# Specify the directory, title, and favicon
+directory = './templates'  # Change this to your directory path
+title = 'Core Topology'
+favicon = '/static/favicon.ico'  # Change this to your favicon path
+# Process the HTML files
+module.process_html_files(directory, title, favicon)
+
+
 # store the valid path data
 file_name = './Data/filtered_paths.xlsx'
 path_list=module.valid_paths(file_name)
@@ -69,6 +77,7 @@ def form1():
     if request.method == 'POST':
         value=request.form.get('Function')
         if value == 'V':
+            module.process_html_files(directory, title, favicon)
             return render_template('files/examplenet.html')
         elif value == 'Find Path':
             src = request.form.get('src')
@@ -76,10 +85,12 @@ def form1():
             check_progress = module.find_path(G,src,dest,path_list)
             module.chk_files(location2)
             if check_progress == 'Success':
+                module.process_html_files(directory, title, favicon)
                 return render_template('non_display_files/path.html')
             else:
                 return f'No path exists from {src} to {dest}!!'
         elif value == 'all':
+            module.process_html_files(directory, title, favicon)
             return render_template('files/ugandabasic.html')
         elif value == 'individual':
             key = request.form.get('option1')
@@ -109,8 +120,9 @@ def form1():
             src = request.form.get('bytellldp_source')
             paths = path.get_all_paths(src,edge_data_bytelldp)
             path.draw_paths2(paths,critical_nodes)
+            module.process_html_files(directory, title, favicon)
             return render_template('non_display_files/bytellldp.html')
-
+        module.process_html_files(directory, title, favicon)
         return render_template('non_display_files/a.html')
             
     return render_template('index.html',files=lookup,files_uganda_1 = list_options_u1,files_uganda_2 = list_options_u2,files_zim_1 = list_options_z1,files_zim_2 =list_options_z2)
@@ -142,6 +154,7 @@ def form3():
             if len(ideal_path) == 0:
                 return "No Ideal paht exists"
             path.draw_paths2(ideal_path,critical_nodes)
+            module.process_html_files(directory, title, favicon)
             return render_template('non_display_files/bytellldp.html')
             
 
@@ -190,6 +203,7 @@ def select_columns(filename):
         g = tables_to_graph(table_nodes, table_edges, node_col="Node", node_data=["Node"], edge_data=dataOfEdges, directed=True)
         Sigma.write_html(g, "./templates/output/" + filename.replace(' ', "").replace('-', '').split('.')[0] + '.html', fullscreen=True, clickable_edges=True, node_size=g.degree, node_color='red', raw_edge_color='color')
         module.chk_files('./templates/output')
+        module.process_html_files(directory, title, favicon)
         return render_template('output/' + filename.replace(' ', "").replace('-', '').split('.')[0] + '.html', columns=selected_columns)
     
     return render_template('select_columns.html', columns=columns, filename=filename)
@@ -208,6 +222,7 @@ def process():
     print(data)
     if data is not None:
         module.plot_data(data_u1,keys_u1,name_list)
+    module.process_html_files(directory, title, favicon)
     return render_template('/non_display_files/a.html')
     #     return jsonify({'data': name_list}), 200
     # else:
@@ -221,9 +236,11 @@ def dynamic_route(route_name):
     print("Requested route:", route_name)
     if route_name in lookup:
         print("File path found:", lookup[route_name])
+        module.process_html_files(directory, title, favicon)
         return render_template(f'files/{lookup[route_name]}')
     else:
         print("Route not found:", route_name)
+        
         return f"Route '{route_name}' not found."
 
 # @app.route('/<template_name>',methods=['GET','POST'])
