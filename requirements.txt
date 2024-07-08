@@ -17,6 +17,7 @@ ebbe==1.13.2
 entrypoints @ file:///home/conda/feedstock_root/build_artifacts/entrypoints_1643888246732/work
 et-xmlfile==1.1.0
 Flask==2.0.3
+Flask-Scss==0.5
 importlib-metadata==4.8.3
 ipykernel @ file:///home/conda/feedstock_root/build_artifacts/ipykernel_1620912934572/work/dist/ipykernel-5.5.5-py3-none-any.whl
 ipysigma==0.24.2
@@ -52,6 +53,7 @@ pelote==0.8.2
 pexpect @ file:///home/conda/feedstock_root/build_artifacts/pexpect_1667297516076/work
 pickleshare @ file:///home/conda/feedstock_root/build_artifacts/pickleshare_1602536217715/work
 Pillow==8.4.0
+plotly==5.18.0
 prometheus-client==0.17.1
 prompt-toolkit @ file:///home/conda/feedstock_root/build_artifacts/prompt-toolkit_1670414775770/work
 ptyprocess @ file:///home/conda/feedstock_root/build_artifacts/ptyprocess_1609419310487/work/dist/ptyprocess-0.7.0-py2.py3-none-any.whl
@@ -60,12 +62,14 @@ Pygments @ file:///home/conda/feedstock_root/build_artifacts/pygments_1672682006
 pyllist==0.3
 pyparsing==3.1.2
 pyrsistent==0.18.0
+pyScss==1.4.0
 python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1626286286081/work
 pytz==2024.1
 pyvis==0.3.2
 pyzmq @ file:///home/conda/feedstock_root/build_artifacts/pyzmq_1631793305981/work
 Send2Trash==1.8.3
 six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
+tenacity==8.2.2
 terminado==0.12.1
 testpath==0.6.0
 tornado @ file:///home/conda/feedstock_root/build_artifacts/tornado_1610094701020/work

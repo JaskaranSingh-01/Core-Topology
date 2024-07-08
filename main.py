@@ -148,7 +148,7 @@ def form3():
 @app.route('/select_columns/<filename>', methods=['GET', 'POST'])
 def select_columns(filename):
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    df = pd.read_excel(filepath) if filename.endswith('.xlsx') else pd.read_csv(filepath)
+    df = pd.read_excel(filepath,engine='openpyxl') if filename.endswith('.xlsx') else pd.read_csv(filepath)
 
     df = df.astype(str)
     df = df.drop_duplicates()

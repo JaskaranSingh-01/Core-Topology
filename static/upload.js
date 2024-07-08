@@ -14,14 +14,14 @@ input.addEventListener('change', function () {
     file = this.files[0];
     let fileType = file.type;
     if (validExtension.includes(fileType)) {
-        dragArea.classList.add('active');
+        // dragArea.classList.add('active');
         // Ensure the file chooser is closed before submitting the form
         setTimeout(function () {
+            
             document.getElementById('upload-form').submit();
-        }, 100); // Adjust the delay as needed
+        }, 1); // Adjust the delay as needed
     } else {
         alert("Upload a valid file");
-        dragArea.classList.remove('active');
     }
 });
 
