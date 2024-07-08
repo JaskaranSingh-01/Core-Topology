@@ -66,7 +66,6 @@ def set_edge_data(src,dest):
 
 
 def chk_files(path):
-    
     script_tag = '<script src="static/script.js" defer></script>'
 
     for filename in os.listdir(path):
@@ -79,6 +78,9 @@ def chk_files(path):
                 content = content.replace('</body>', f'{script_tag}\n</body>')
                 with open(filepath, 'w') as file:
                     file.write(content)
+
+# def format_title(path)
+
 
 def find_path(G,src,dest,path_list):
     table_nodes = []

@@ -94,7 +94,7 @@ def get_data(file):
             if row['Classe Equipement A'] == lookup[row['Classe Equipement B']] or row['Classe Equipement A'] == row['Classe Equipement B']:
                 edge_list[row['Equipement B']].append(row['Equipement A'])
 
-
+    critical_nodes = []
     for k,v in edge_list.items():
         edge_list[k] = list(set(v))
         edge_list[k].sort()
@@ -107,12 +107,14 @@ def get_data(file):
                 similar_nodes.append(node)
             else:
                 different_nodes.append(node)
+        if len(different_nodes) < 2:
+            critical_nodes.append(k)
         edge_list[k] = []
         for node in different_nodes:
             edge_list[k].append(node)
         for node in similar_nodes:
             edge_list[k].append(node)
-    return edge_list
+    return edge_list,critical_nodes
     # cnt=0
     # for i in source_list:
     #     cnt+=1
@@ -207,7 +209,7 @@ def draw_paths(paths):
     nt.write_html(html_file_path)
     
     
-def draw_paths2(paths):
+def draw_paths2(paths,critical_nodes):
     G=nx.MultiDiGraph()
 
     for i in range(len(paths)):
@@ -220,7 +222,10 @@ def draw_paths2(paths):
             elif cnt == len(paths[i])-1:
                 G.add_node(node,color = 'red')
             else:
-                G.add_node(node)
+                if node in critical_nodes:
+                    G.add_node(node,color = 'Gold')
+                else:
+                    G.add_node(node)
             if parent != 'src':
                 if G.has_edge(parent,node) == False:
                     G.add_edge(parent,node,color="lightblue")

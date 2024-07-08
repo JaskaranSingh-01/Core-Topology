@@ -38,7 +38,7 @@ data_z1,keys_z1= module.parse_file_u2(file3 , 'NE Location')
 data_z2,keys_z2= module.parse_file_u2(file4 , 'ENSS_name')
 
 file5 = './Data/Bytellldp.xlsx'
-edge_data_bytelldp = path.get_data(file5)
+edge_data_bytelldp ,critical_nodes = path.get_data(file5)
 
 # storing node names in a list
 list_options_u1 = []
@@ -108,7 +108,7 @@ def form1():
         elif value == 'value_of_bytellldp':
             src = request.form.get('bytellldp_source')
             paths = path.get_all_paths(src,edge_data_bytelldp)
-            path.draw_paths2(paths)
+            path.draw_paths2(paths,critical_nodes)
             return render_template('non_display_files/bytellldp.html')
 
         return render_template('non_display_files/a.html')
@@ -141,7 +141,7 @@ def form3():
             ideal_path = path.get_ideal_path(invalid,paths)
             if len(ideal_path) == 0:
                 return "No Ideal paht exists"
-            path.draw_paths2(ideal_path)
+            path.draw_paths2(ideal_path,critical_nodes)
             return render_template('non_display_files/bytellldp.html')
             
 
