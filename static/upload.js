@@ -17,8 +17,8 @@ input.addEventListener('change', function () {
         // dragArea.classList.add('active');
         // Ensure the file chooser is closed before submitting the form
         setTimeout(function () {
-            
             document.getElementById('upload-form').submit();
+            location.reload(true);
         }, 1); // Adjust the delay as needed
     } else {
         alert("Upload a valid file");
@@ -60,6 +60,7 @@ dragArea.addEventListener('drop', (e) => {
         // Ensure the file chooser is closed before submitting the form
         setTimeout(function () {
             document.getElementById('upload-form').submit();
+            location.reload(true);
         }, 100); // Adjust the delay as needed
     } else {
         alert("Upload a valid file");

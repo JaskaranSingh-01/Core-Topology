@@ -127,6 +127,7 @@ def form1():
             
     return render_template('index.html',files=lookup,files_uganda_1 = list_options_u1,files_uganda_2 = list_options_u2,files_zim_1 = list_options_z1,files_zim_2 =list_options_z2)
 
+app.config['UPLOAD_FOLDER'] = './uploads'
 @app.route('/form2',methods=['GET','POST'])
 def form2():
     if request.method == 'POST':
@@ -140,7 +141,6 @@ def form2():
             file.save(filepath)
             return redirect(url_for('select_columns', filename=file.filename))
 
-app.config['UPLOAD_FOLDER'] = './uploads'
 
 @app.route('/form3', methods=['GET', 'POST'])
 def form3():
@@ -161,7 +161,16 @@ def form3():
 @app.route('/select_columns/<filename>', methods=['GET', 'POST'])
 def select_columns(filename):
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    df = pd.read_excel(filepath,engine='openpyxl') if filename.endswith('.xlsx') else pd.read_csv(filepath)
+    if not os.path.exists(filepath):
+        return 'File not found'
+    
+    try:
+        if filename.endswith('.xlsx'):
+            df = pd.read_excel(filepath, engine='openpyxl')
+        else:
+            df = pd.read_csv(filepath)
+    except Exception as e:
+        return str(e)
 
     df = df.astype(str)
     df = df.drop_duplicates()
@@ -255,4 +264,4 @@ def dynamic_route(route_name):
 #         # abort(404)
 
 if __name__ == '__main__':
-    app.run(debug=True,host='0.0.0.0',port=7000)
+    app.run(debug=True,host='0.0.0.0',port=6001)

@@ -109,7 +109,7 @@ def set_edge_data(src,dest):
 
 
 def chk_files(path):
-    script_tag = '<script src="static/script.js" defer></script>'
+    script_tag = ''' <script src="{{ url_for('static', filename='script.js') }}" defer></script> '''
 
     for filename in os.listdir(path):
         if filename.endswith('.html'):
