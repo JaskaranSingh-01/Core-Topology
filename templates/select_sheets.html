@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Topology</title>
+</head>
+<body>
+    <h1>Select Sheets to Process</h1>
+    <form action="{{ url_for('select_sheets', filename=filename) }}" method="post">
+        {% for sheet in sheets %}
+            <div>
+                <input type="radio" name="sheets" value="{{ sheet }}" id="sheet_{{ loop.index }}">
+                <label for="sheet_{{ loop.index }}">{{ sheet }}</label>
+            </div>
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

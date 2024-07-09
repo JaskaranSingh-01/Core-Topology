@@ -67,6 +67,22 @@ for k in data_z2:
     list_options_z2.append(k)
 
 
+def number_to_digits_string(number):
+    # Convert number to string
+    num_str = str(number)
+    
+    # Initialize an empty string to store digits
+    digits_string = ""
+    
+    # Iterate over each character in the string representation of the number
+    for char in num_str:
+        # Append each character (digit) to the digits_string
+        digits_string += char
+    
+    return digits_string
+
+sheet_num = 0
+
 app = Flask(__name__)
 @app.route('/', methods=['GET','POST'])
 def ind():
@@ -139,34 +155,41 @@ def form2():
         if file:
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
             file.save(filepath)
+            sheet_names = pd.ExcelFile(filepath).sheet_names
+            return render_template('select_sheets.html', sheets = sheet_names,filename = file.filename)      
             return redirect(url_for('select_columns', filename=file.filename))
-
-
-@app.route('/form3', methods=['GET', 'POST'])
-def form3():
-    if request.method=='POST':
-        value = request.form.get('Function-form-3')
-        if value == 'ideal_value_of_bytellldp':
-            src = request.form.get('bytellldp_source_ideal');
-            invalid = request.form.get('bytellldp_source_invalid');
-            paths = path.get_all_paths(src,edge_data_bytelldp)
-            ideal_path = path.get_ideal_path(invalid,paths)
-            if len(ideal_path) == 0:
-                return "No Ideal paht exists"
-            path.draw_paths2(ideal_path,critical_nodes)
-            module.process_html_files(directory, title, favicon)
-            return render_template('non_display_files/bytellldp.html')
             
-
-@app.route('/select_columns/<filename>', methods=['GET', 'POST'])
-def select_columns(filename):
+@app.route('/setect_sheets/<filename>',methods = ['GET','POST'])
+def select_sheets(filename):
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    sheet_names = pd.ExcelFile(filepath).sheet_names
+    selected_sheets='0'
+    if request.method == 'POST':
+        selected_sheets = request.form.getlist('sheets')
+        num = None
+        for sheet in selected_sheets:
+            if sheet in sheet_names:
+                num = sheet_names.index(sheet)
+                break
+        
+        if num is None:
+            return 'Selected sheet not found in file'
+        
+        return redirect(url_for('select_columns', filename=filename, num=num))
+    else:
+        return render_template('select_sheets.html', sheets = sheet_names,filename = filename)  
+
+
+@app.route('/select_columns/<filename>/<num>', methods=['GET', 'POST'])
+def select_columns(filename,num):
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    
     if not os.path.exists(filepath):
         return 'File not found'
     
     try:
         if filename.endswith('.xlsx'):
-            df = pd.read_excel(filepath, engine='openpyxl')
+            df = pd.read_excel(filepath, sheet_name=int(num), engine='openpyxl')
         else:
             df = pd.read_csv(filepath)
     except Exception as e:
@@ -214,10 +237,22 @@ def select_columns(filename):
         module.chk_files('./templates/output')
         module.process_html_files(directory, title, favicon)
         return render_template('output/' + filename.replace(' ', "").replace('-', '').split('.')[0] + '.html', columns=selected_columns)
-    
-    return render_template('select_columns.html', columns=columns, filename=filename)
+    return render_template('select_columns.html',columns=columns, filename=filename,num=num)
 
-
+@app.route('/form3', methods=['GET', 'POST'])
+def form3():
+    if request.method=='POST':
+        value = request.form.get('Function-form-3')
+        if value == 'ideal_value_of_bytellldp':
+            src = request.form.get('bytellldp_source_ideal');
+            invalid = request.form.get('bytellldp_source_invalid');
+            paths = path.get_all_paths(src,edge_data_bytelldp)
+            ideal_path = path.get_ideal_path(invalid,paths)
+            if len(ideal_path) == 0:
+                return "No Ideal paht exists"
+            path.draw_paths2(ideal_path,critical_nodes)
+            module.process_html_files(directory, title, favicon)
+            return render_template('non_display_files/bytellldp.html')
 
 @app.route("/form1/process",methods = ['GET','POST'])
 def process():
