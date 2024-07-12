@@ -250,7 +250,6 @@ def form3():
 def process():
     data = request.get_json()
     name_list = []
-
     if data is not None:
         for k, v in data_u1.items():
             if data['value'] in k:

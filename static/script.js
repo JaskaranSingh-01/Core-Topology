@@ -55,7 +55,7 @@ window.onchange = function () {
         //     }
         // });
         // Alternatively, you can use: window.location.href = "/ugandabasic/process";
-        window.open("/submit/process");
+        window.open("/form1/process");
     }
 
     
