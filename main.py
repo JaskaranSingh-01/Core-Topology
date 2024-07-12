@@ -208,39 +208,13 @@ def select_columns(filename,num):
     
     if request.method == 'POST':
         selected_columns = request.form.getlist('columns')
+        lib = request.form.get('lib')
         source = request.form.get('src')
         destination = request.form.get('dest')
-        g = nx.MultiDiGraph()
-        edge_label = []
-        for idx in range(len(selected_columns)):
-            edge_label.append(selected_columns[idx])
-        table_nodes = []
-        table_edges = []
-        dataOfEdges = ['source', 'target']
-        for i in range(len(selected_columns)):
-            dataOfEdges.append(selected_columns[i])
-        for idx, row in df.iterrows():
-            node_data = {
-                "Node": row[source]
-            }
-            table_nodes.append(node_data)
-
-            node_data = {
-                "Node": row[destination]
-            }
-            table_nodes.append(node_data)
-            
-            edge_data = {
-                'source': row[source],
-                'target': row[destination]
-            }
-            
-            for i in range(len(selected_columns)):
-                edge_data[selected_columns[i]] = row[selected_columns[i]]
-            table_edges.append(edge_data)
-            
-        g = tables_to_graph(table_nodes, table_edges, node_col="Node", node_data=["Node"], edge_data=dataOfEdges, directed=True)
-        Sigma.write_html(g, "./templates/output/" + filename.replace(' ', "").replace('-', '').split('.')[0] + '.html', fullscreen=True, clickable_edges=True, node_size=g.degree, node_color='red', raw_edge_color='color')
+        if lib == 'ipy':
+            path.draw_ipy_graph(source,destination,df,selected_columns,filename)
+        elif lib == 'nx':
+            path.draw_nx_graph(source,destination,df,selected_columns,filename)
         module.chk_files('./templates/output')
         module.process_html_files(directory, title, favicon)
         return render_template('output/' + filename.replace(' ', "").replace('-', '').split('.')[0] + '.html', columns=selected_columns)

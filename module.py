@@ -259,3 +259,4 @@ def plot_data_comp(data, keys,name1,name2):
         ))
 
     fig.write_html('./templates/non_display_files/a.html')
+    

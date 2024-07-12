@@ -208,3 +208,78 @@ def draw_paths_ipy(paths,critical_nodes):
             cnt+=1
     g = tables_to_graph(table_nodes, table_edges, node_col="Node", node_data=["Node",'col'], edge_data=['source', 'target'], directed=True)
     Sigma.write_html(g,'./templates/non_display_files/bytellldp.html',fullscreen=True,clickable_edges=True,node_size=g.degree,node_color='col')
+
+def draw_ipy_graph(source,destination,df,selected_columns,filename):
+    g = nx.MultiDiGraph()
+    edge_label = []
+    for idx in range(len(selected_columns)):
+        edge_label.append(selected_columns[idx])
+    table_nodes = []
+    table_edges = []
+    dataOfEdges = ['source', 'target']
+    for i in range(len(selected_columns)):
+        dataOfEdges.append(selected_columns[i])
+    for idx, row in df.iterrows():
+        node_data = {
+            "Node": row[source]
+        }
+        table_nodes.append(node_data)
+        node_data = {
+            "Node": row[destination]
+        }
+        table_nodes.append(node_data)
+        
+        edge_data = {
+            'source': row[source],
+            'target': row[destination]
+        }
+        
+        for i in range(len(selected_columns)):
+            edge_data[selected_columns[i]] = row[selected_columns[i]]
+        table_edges.append(edge_data)
+        
+    g = tables_to_graph(table_nodes, table_edges, node_col="Node", node_data=["Node"], edge_data=dataOfEdges, directed=True)
+    Sigma.write_html(g, "./templates/output/" + filename.replace(' ', "").replace('-', '').split('.')[0] + '.html', fullscreen=True, clickable_edges=True, node_size=g.degree, node_color='red', raw_edge_color='color')
+
+def format_attributes(data_dict):
+        formatted_string = ""
+        for key, value in data_dict.items():
+            if key=='value':
+                formatted_string += f"{'source'}: {value}\n"
+            else:
+                formatted_string += f"{key}: {value}\n"
+        return formatted_string
+
+def draw_nx_graph(source,destination,df,selected_columns,filename):
+    G = nx.MultiDiGraph()
+    
+    # edge_label = []
+    # for idx in range(len(selected_columns)):
+    #     edge_label.append(selected_columns[idx])
+    # table_nodes = []
+    # table_edges = []
+    attribute_columns = []
+    for i in range(len(selected_columns)):
+        attribute_columns.append(selected_columns[i])
+    for idx, row in df.iterrows():
+        src_name = row[source]
+        dest_name = row[destination]
+        G.add_node(src_name)
+        G.add_node(dest_name)
+        attributes = {col: row[col] for col in attribute_columns}
+        attribute_html = format_attributes(attributes)
+        G.add_edge(src_name,dest_name, title=r"{}".format(attribute_html), color='lightblue')
+    G = nx.relabel_nodes(G, {n: str(n) for n in G.nodes()})
+    nt = Network(height="1500px", width="100%",bgcolor="#222222", font_color="white", directed=True, notebook=True, filter_menu=True, cdn_resources='remote')
+    nt.from_nx(G)
+    nt.force_atlas_2based(gravity=-18950,central_gravity=2.0,spring_length=200,spring_strength=0.5,damping=0.75,overlap=0.5)
+    nt.set_edge_smooth('dynamic')
+    # Show additional buttons for physics and interaction (optional)
+    nt.show_buttons(filter_=['physics', 'interaction'])
+    # Generate and save the HTML file
+    html_file_path = "./templates/output/" + filename.replace(' ', "").replace('-', '').split('.')[0] + '.html'
+    if os.path.exists(html_file_path):
+        # Delete the file if it exists
+        os.remove(html_file_path)
+    # Write the HTML file
+    nt.write_html(html_file_path)

@@ -19,7 +19,7 @@ input.addEventListener('change', function () {
         setTimeout(function () {
             document.getElementById('upload-form').submit();
             location.reload(true);
-        }, 1); // Adjust the delay as needed
+        }, 100); // Adjust the delay as needed
     } else {
         alert("Upload a valid file");
     }

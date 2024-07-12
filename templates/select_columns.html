@@ -8,6 +8,9 @@
 </head>
 <body>
     <form action="/select_columns/{{filename}}/{{num}}"  target="_blank" method="post">
+        <h1>Select Library</h1>
+            <input type="radio" name="lib" value="ipy"> IpySigma<br>
+            <input type="radio" name="lib" value="nx"> NetworkX<br>
         <h1>Select Source</h1>
         {% for column in columns %}
             <input type="radio" name="src" value="{{ column }}"> {{ column }}<br>
