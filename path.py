@@ -3,6 +3,7 @@ import networkx as nx
 from ipysigma import Sigma
 from pyvis.network import Network
 import os
+from pelote import tables_to_graph
 # from openpyxl import Workbook
 
 # wb = Workbook() # creates a workbook object.
@@ -123,93 +124,7 @@ def get_data(file):
     #         break
     #     dfs(i,edge_list,pl)
 
-def draw_paths(paths):
-    G=nx.MultiDiGraph()
-    def format_attributes(data_dict):
-        formatted_string = ""
-        for key, value in data_dict.items():
-            if key=='value':
-                formatted_string += f"{'source'}: {value}\n"
-            else:
-                formatted_string += f"{key}: {value}\n"
-        return formatted_string
-    color_table = [
-        "AliceBlue",
-        "AntiqueWhite",
-        "Aqua",
-        "Aquamarine",
-        "Azure",
-        "Beige",
-        "Bisque",
-        "Black",
-        "BlanchedAlmond",
-        "Blue",
-        "BlueViolet",
-        "Brown",
-        "BurlyWood",
-        "CadetBlue",
-        "Chartreuse",
-        "Chocolate",
-        "Coral",
-        "CornflowerBlue",
-        "Cornsilk",
-        "Crimson",
-        "Cyan",
-        "DarkBlue",
-        "DarkCyan",
-        "DarkGoldenRod",
-        "DarkGray",
-        "DarkGreen",
-        "DarkKhaki",
-        "DarkMagenta",
-        "DarkOliveGreen",
-        "DarkOrange",
-        "DarkOrchid",
-        "DarkRed",
-        "DarkSalmon",
-        "DarkSeaGreen",
-        "DarkSlateBlue",
-        "DarkSlateGray",
-        "DarkTurquoise",
-        "DarkViolet",
-        "DeepPink",
-        "DeepSkyBlue",
-        "DimGray",
-        "DodgerBlue",
-        "FireBrick",
-        "FloralWhite",
-        "ForestGreen",
-        "Fuchsia",
-        "Gainsboro",
-        "GhostWhite",
-        "Gold",
-        "GoldenRod"
-    ]
-    for i in range(len(paths)):
-        parent = 'src'
-        # print(paths[i])
-        for node in paths[i]:
-            G.add_node(node)
-            if parent != 'src':
-                G.add_edge(parent,node,title = i,color=color_table[i%50],Path_Number = i)
-            parent = node
-    G = nx.relabel_nodes(G, {n: str(n) for n in G.nodes()})
-    nt = Network(height="1500px", width="100%",bgcolor="#222222", font_color="white", directed=True, notebook=True, filter_menu=True, cdn_resources='remote')
-    nt.from_nx(G)
-    nt.force_atlas_2based(gravity=-18950,central_gravity=2.0,spring_length=200,spring_strength=0.5,damping=0.75,overlap=0.5)
-    nt.set_edge_smooth('dynamic')
-    # Show additional buttons for physics and interaction (optional)
-    nt.show_buttons(filter_=['physics', 'interaction'])
-    # Generate and save the HTML file
-    html_file_path = './templates/non_display_files/bytellldp.html'
-    if os.path.exists(html_file_path):
-        # Delete the file if it exists
-        os.remove(html_file_path)
-    # Write the HTML file
-    nt.write_html(html_file_path)
-    
-    
-def draw_paths2(paths,critical_nodes):
+def draw_paths_nx(paths,critical_nodes):
     G=nx.MultiDiGraph()
 
     for i in range(len(paths)):
@@ -244,4 +159,52 @@ def draw_paths2(paths,critical_nodes):
         # Delete the file if it exists
         os.remove(html_file_path)
     # Write the HTML file
-    nt.write_html(html_file_path)    
+    nt.write_html(html_file_path)
+
+def draw_paths_ipy(paths,critical_nodes):
+    G=nx.MultiDiGraph()
+
+    table_nodes = []
+    table_edges = []
+    
+    for i in range(len(paths)):
+        parent = 'src'
+        # print(paths[i])
+        cnt=0
+        for node in paths[i]:
+            if cnt==0:
+                node_data = {
+                    "Node": node,
+                    "col" :'green'
+                }
+                table_nodes.append(node_data)
+            elif cnt == len(paths[i])-1:
+                node_data = {
+                    "Node": node,
+                    "col" :'red'
+                }
+                table_nodes.append(node_data)
+            else:
+                if node in critical_nodes:
+                    node_data = {
+                    "Node": node,
+                    "col" :'Gold'
+                    }
+                    table_nodes.append(node_data)
+                else:
+                    node_data = {
+                    "Node": node,
+                    "col" :'blue'
+                    }
+                    table_nodes.append(node_data)
+            if parent != 'src':
+                if G.has_edge(parent,node) == False:
+                    edge_data = {
+                        'source':parent,
+                        'target':node
+                    }
+                    table_edges.append(edge_data)
+            parent = node
+            cnt+=1
+    g = tables_to_graph(table_nodes, table_edges, node_col="Node", node_data=["Node",'col'], edge_data=['source', 'target'], directed=True)
+    Sigma.write_html(g,'./templates/non_display_files/bytellldp.html',fullscreen=True,clickable_edges=True,node_size=g.degree,node_color='col')

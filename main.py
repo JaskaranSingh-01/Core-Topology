@@ -132,10 +132,17 @@ def form1():
             k = []
             k.append(key)
             module.plot_data(data_z2,keys_z2,k)
-        elif value == 'value_of_bytellldp':
-            src = request.form.get('bytellldp_source')
+        elif value == 'value_of_bytellldp_nx':
+            src = request.form.get('bytellldp_source_nx')
             paths = path.get_all_paths(src,edge_data_bytelldp)
-            path.draw_paths2(paths,critical_nodes)
+            path.draw_paths_nx(paths,critical_nodes)
+            module.process_html_files(directory, title, favicon)
+            return render_template('non_display_files/bytellldp.html')
+        elif value == 'value_of_bytellldp_ipy':
+            src = request.form.get('bytellldp_source_ipy')
+            paths = path.get_all_paths(src,edge_data_bytelldp)
+            path.draw_paths_ipy(paths,critical_nodes)
+            module.chk_files('./templates/non_display_files')
             module.process_html_files(directory, title, favicon)
             return render_template('non_display_files/bytellldp.html')
         module.process_html_files(directory, title, favicon)
@@ -243,14 +250,25 @@ def select_columns(filename,num):
 def form3():
     if request.method=='POST':
         value = request.form.get('Function-form-3')
-        if value == 'ideal_value_of_bytellldp':
-            src = request.form.get('bytellldp_source_ideal');
-            invalid = request.form.get('bytellldp_source_invalid');
+        if value == 'ideal_value_of_bytellldp_nx':
+            src = request.form.get('bytellldp_source_ideal_nx');
+            invalid = request.form.get('bytellldp_source_invalid_nx');
             paths = path.get_all_paths(src,edge_data_bytelldp)
             ideal_path = path.get_ideal_path(invalid,paths)
             if len(ideal_path) == 0:
                 return "No Ideal paht exists"
-            path.draw_paths2(ideal_path,critical_nodes)
+            path.draw_paths_nx(ideal_path,critical_nodes)
+            module.process_html_files(directory, title, favicon)
+            return render_template('non_display_files/bytellldp.html')
+        elif value == 'ideal_value_of_bytellldp_ipy':
+            src = request.form.get('bytellldp_source_ideal_ipy');
+            invalid = request.form.get('bytellldp_source_invalid_ipy');
+            paths = path.get_all_paths(src,edge_data_bytelldp)
+            ideal_path = path.get_ideal_path(invalid,paths)
+            if len(ideal_path) == 0:
+                return "No Ideal paht exists"
+            path.draw_paths_ipy(ideal_path,critical_nodes)
+            module.chk_files('./templates/non_display_files')
             module.process_html_files(directory, title, favicon)
             return render_template('non_display_files/bytellldp.html')
 

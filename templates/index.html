@@ -343,17 +343,17 @@
 
                         <div class="radio-input">
                             <label class="label">
-                                <input type="radio" id="find_in_bytellldp" name="Function" value="value_of_bytellldp"
+                                <input type="radio" id="find_in_bytellldp_nx" name="Function" value="value_of_bytellldp_nx"
                                     onclick="toggleFunctionFields()">
                                 <span class="check"></span>
                             </label>
-                            <label for="find_in_bytellldp" class="txt"> Find Path [Bytellldp]</label>
+                            <label for="find_in_bytellldp_nx" class="txt"> Find Path [Bytellldp, using NetworkX]</label>
                         </div>
 
-                        <div id="path_in_bytellldp" class="hidden txt">
+                        <div id="path_in_bytellldp_nx" class="hidden txt">
                             <div class="form-row">
                                 <div class="form-control">
-                                    <input type="text" name="bytellldp_source" id="bytellldp_source">
+                                    <input type="text" name="bytellldp_source_nx" id="bytellldp_source_nx">
                                     <label>
                                         <span style="transition-delay:0ms">S</span><span
                                             style="transition-delay:50ms">o</span><span
@@ -369,7 +369,35 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="radio-input">
+                            <label class="label">
+                                <input type="radio" id="find_in_bytellldp_ipy" name="Function" value="value_of_bytellldp_ipy"
+                                    onclick="toggleFunctionFields()">
+                                <span class="check"></span>
+                            </label>
+                            <label for="find_in_bytellldp_ipy" class="txt"> Find Path [Bytellldp, using IpySigma]</label>
+                        </div>
 
+                        <div id="path_in_bytellldp_ipy" class="hidden txt">
+                            <div class="form-row">
+                                <div class="form-control">
+                                    <input type="text" name="bytellldp_source_ipy" id="bytellldp_source_ipy">
+                                    <label>
+                                        <span style="transition-delay:0ms">S</span><span
+                                            style="transition-delay:50ms">o</span><span
+                                            style="transition-delay:100ms">u</span><span
+                                            style="transition-delay:150ms">r</span><span
+                                            style="transition-delay:200ms">c</span><span
+                                            style="transition-delay:250ms">e</span><span style="transition-delay:300ms">
+                                        </span><span style="transition-delay:350ms">N</span><span
+                                            style="transition-delay:400ms">o</span><span
+                                            style="transition-delay:450ms">d</span><span
+                                            style="transition-delay:500ms">e</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="form-row submit-btn">
                             <a class="fancy">
@@ -421,17 +449,17 @@
                 <form id="myForm-2" action="/form3" target="_blank" method="post">
                     <div class="radio-input">
                         <label class="label">
-                            <input type="radio" id="find_ideal_in_bytellldp" name="Function-form-3"
-                                value="ideal_value_of_bytellldp" onclick="toggleFunctionFields()">
+                            <input type="radio" id="find_ideal_in_bytellldp_nx" name="Function-form-3"
+                                value="ideal_value_of_bytellldp_nx" onclick="toggleFunctionFields()">
                             <span class="check"></span>
                         </label>
-                        <label for="find_ideal_in_bytellldp" class="txt"> Find Ideal Path [Bytellldp]</label>
+                        <label for="find_ideal_in_bytellldp_nx" class="txt"> Find Ideal Path [Bytellldp, using NetworkX]</label>
                     </div>
 
-                    <div id="ideal_path_in_bytellldp" class="hidden txt">
+                    <div id="ideal_path_in_bytellldp_nx" class="hidden txt">
                         <div class="form-row">
                             <div class="form-control">
-                                <input type="text" name="bytellldp_source_ideal" id="bytellldp_source_ideal">
+                                <input type="text" name="bytellldp_source_ideal_nx" id="bytellldp_source_ideal_nx">
                                 <label>
                                     <span style="transition-delay:0ms">S</span><span
                                         style="transition-delay:50ms">o</span><span
@@ -446,7 +474,48 @@
                                 </label>
                             </div>
                             <div class="form-control">
-                                <input type="text" name="bytellldp_source_invalid" id="bytellldp_source_invalid">
+                                <input type="text" name="bytellldp_source_invalid_nx" id="bytellldp_source_invalid_nx">
+                                <label>
+                                    <span style="transition-delay:0ms">I</span><span
+                                        style="transition-delay:50ms">n</span><span
+                                        style="transition-delay:100ms">v</span><span
+                                        style="transition-delay:150ms">a</span><span
+                                        style="transition-delay:200ms">l</span><span
+                                        style="transition-delay:250ms">i</span><span
+                                        style="transition-delay:300ms">d</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="radio-input">
+                        <label class="label">
+                            <input type="radio" id="find_ideal_in_bytellldp_ipy" name="Function-form-3"
+                                value="ideal_value_of_bytellldp_ipy" onclick="toggleFunctionFields()">
+                            <span class="check"></span>
+                        </label>
+                        <label for="find_ideal_in_bytellldp_ipy" class="txt">Find Ideal Path [Bytellldp, using IpySigma]</label>
+                    </div>
+
+                    <div id="ideal_path_in_bytellldp_ipy" class="hidden txt">
+                        <div class="form-row">
+                            <div class="form-control">
+                                <input type="text" name="bytellldp_source_ideal_ipy" id="bytellldp_source_ideal_ipy">
+                                <label>
+                                    <span style="transition-delay:0ms">S</span><span
+                                        style="transition-delay:50ms">o</span><span
+                                        style="transition-delay:100ms">u</span><span
+                                        style="transition-delay:150ms">r</span><span
+                                        style="transition-delay:200ms">c</span><span
+                                        style="transition-delay:250ms">e</span><span style="transition-delay:300ms">
+                                    </span><span style="transition-delay:350ms">N</span><span
+                                        style="transition-delay:400ms">o</span><span
+                                        style="transition-delay:450ms">d</span><span
+                                        style="transition-delay:500ms">e</span>
+                                </label>
+                            </div>
+                            <div class="form-control">
+                                <input type="text" name="bytellldp_source_invalid_ipy" id="bytellldp_source_invalid_ipy">
                                 <label>
                                     <span style="transition-delay:0ms">I</span><span
                                         style="transition-delay:50ms">n</span><span

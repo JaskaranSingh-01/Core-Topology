@@ -46,7 +46,7 @@ def process_html_files(directory, title, favicon):
                 with open(file_path, 'w', encoding='utf-8') as f:
                     f.write(new_content)
                 
-                print(f'Updated {file_path}')
+                # print(f'Updated {file_path}')
 
 def valid_paths(file_name):
     path_list = {}

@@ -152,12 +152,16 @@ function toggleFunctionFields() {
   var findPathFields = document.getElementById('findPathFields');
   var desInput = document.getElementById('des');
   var srcInput = document.getElementById('src');
-  var srcInput_bytellldp = document.getElementById('bytellldp_source');
-  var input_ideal_bytellldp = document.getElementById('ideal_path_in_bytellldp') 
-  var src_ideal_bytellldp = document.getElementById('bytellldp_source_ideal')
-  var invalid_ideal_bytellldp = document.getElementById('bytellldp_source_invalid')
   var findRadio = document.getElementById('find');
-  var findRadio_form_2 = document.getElementById('find_ideal_in_bytellldp');
+  var input_ideal_bytellldp_nx = document.getElementById('ideal_path_in_bytellldp_nx'); 
+  var src_ideal_bytellldp_nx = document.getElementById('bytellldp_source_ideal_nx');
+  var invalid_ideal_bytellldp_nx = document.getElementById('bytellldp_source_invalid_nx');
+  var findRadio_form_2_nx = document.getElementById('find_ideal_in_bytellldp_nx');
+
+  var input_ideal_bytellldp_ipy = document.getElementById('ideal_path_in_bytellldp_ipy'); 
+  var src_ideal_bytellldp_ipy = document.getElementById('bytellldp_source_ideal_ipy');
+  var invalid_ideal_bytellldp_ipy = document.getElementById('bytellldp_source_invalid_ipy');
+  var findRadio_form_2_ipy = document.getElementById('find_ideal_in_bytellldp_ipy');
 
   var radioGroups = [
     { radio: 'individual', option: 'ind', value: 'option1' },
@@ -165,18 +169,28 @@ function toggleFunctionFields() {
     { radio: 'u2', option: 'u22', value: 'option4' },
     { radio: 'z1', option: 'z11' },
     { radio: 'z2', option: 'z22' },
-    { radio: 'find_in_bytellldp', option: 'path_in_bytellldp', value: 'bytellldp_source' }
-    
+    { radio: 'find_in_bytellldp_nx', option: 'path_in_bytellldp_nx', value: 'bytellldp_source_nx' },
+    { radio: 'find_in_bytellldp_ipy', option: 'path_in_bytellldp_ipy', value: 'bytellldp_source_ipy' }
   ];
 
-  if (findRadio_form_2.checked) {
-    input_ideal_bytellldp.classList.remove('hidden');
-    src_ideal_bytellldp.setAttribute('required', 'true');
-    invalid_ideal_bytellldp.setAttribute('required', 'true');
+  if (findRadio_form_2_nx.checked) {
+    input_ideal_bytellldp_nx.classList.remove('hidden');
+    src_ideal_bytellldp_nx.setAttribute('required', 'true');
+    invalid_ideal_bytellldp_nx.setAttribute('required', 'true');
   } else {
-    input_ideal_bytellldp.classList.add('hidden');
-    invalid_ideal_bytellldp.removeAttribute('required');
-    src_ideal_bytellldp.removeAttribute('required');
+    input_ideal_bytellldp_nx.classList.add('hidden');
+    invalid_ideal_bytellldp_nx.removeAttribute('required');
+    src_ideal_bytellldp_nx.removeAttribute('required');
+  }
+
+  if (findRadio_form_2_ipy.checked) {
+    input_ideal_bytellldp_ipy.classList.remove('hidden');
+    src_ideal_bytellldp_ipy.setAttribute('required', 'true');
+    invalid_ideal_bytellldp_ipy.setAttribute('required', 'true');
+  } else {
+    input_ideal_bytellldp_ipy.classList.add('hidden');
+    invalid_ideal_bytellldp_ipy.removeAttribute('required');
+    src_ideal_bytellldp_ipy.removeAttribute('required');
   }
 
   if (findRadio.checked) {
@@ -223,7 +237,7 @@ document.getElementById('myForm').addEventListener('submit', function (event) {
 
 document.getElementById('myForm-2').addEventListener('submit', function (event) {
   var radios = [
-    'find_ideal_in_bytellldp'
+    'find_ideal_in_bytellldp_nx,find_ideal_in_bytellldp_ipy'
   ];
 
   var isAnyChecked = radios.some(id => document.getElementById(id).checked);
