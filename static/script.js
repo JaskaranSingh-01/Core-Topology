@@ -20,7 +20,7 @@ window.onload = function () {
     });
 
 
-    
+
 
 };
 
@@ -58,9 +58,38 @@ window.onchange = function () {
         window.open("/form1/process");
     }
 
-    
+
     // window.open("/ugandabasic/process")
     // window.location.href = "/ugandabasic/process"
     var node = e.item(0).getElementsByTagName('i')[0].innerText
     console.log(node)
 };
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Create a new button element
+
+    setTimeout(function () {
+        const button = document.createElement('button');
+        button.innerText = 'html';
+        button.classList.add('ipysigma-button');
+        button.style.margin = '3px';
+
+        // Get the first element with the specified class name
+        var item = document.querySelectorAll('.ipysigma-download-controls');
+        console.log(item)
+        // Add an event listener to the button
+        button.addEventListener('click', () => {
+            window.location.href = '/generate_html';
+        });
+        if (item[0].lastChild.innerText != 'html') {
+            item[0].appendChild(button);
+        }
+
+    }, 5000); // Adjust the delay as needed
+
+});
+
+async function fetchScriptContent(url) {
+    const response = await fetch(url);
+    return await response.text();
+}

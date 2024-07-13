@@ -154,7 +154,7 @@ def draw_paths_nx(paths,critical_nodes):
     # Show additional buttons for physics and interaction (optional)
     nt.show_buttons(filter_=['physics', 'interaction'])
     # Generate and save the HTML file
-    html_file_path = './templates/non_display_files/bytellldp.html'
+    html_file_path = './templates/non_display_files/a.html'
     if os.path.exists(html_file_path):
         # Delete the file if it exists
         os.remove(html_file_path)
@@ -207,7 +207,7 @@ def draw_paths_ipy(paths,critical_nodes):
             parent = node
             cnt+=1
     g = tables_to_graph(table_nodes, table_edges, node_col="Node", node_data=["Node",'col'], edge_data=['source', 'target'], directed=True)
-    Sigma.write_html(g,'./templates/non_display_files/bytellldp.html',fullscreen=True,clickable_edges=True,node_size=g.degree,node_color='col')
+    Sigma.write_html(g,'./templates/non_display_files/a.html',fullscreen=True,clickable_edges=True,node_size=g.degree,node_color='col')
 
 def draw_ipy_graph(source,destination,df,selected_columns,filename):
     g = nx.MultiDiGraph()
@@ -239,7 +239,7 @@ def draw_ipy_graph(source,destination,df,selected_columns,filename):
         table_edges.append(edge_data)
         
     g = tables_to_graph(table_nodes, table_edges, node_col="Node", node_data=["Node"], edge_data=dataOfEdges, directed=True)
-    Sigma.write_html(g, "./templates/output/" + filename.replace(' ', "").replace('-', '').split('.')[0] + '.html', fullscreen=True, clickable_edges=True, node_size=g.degree, node_color='red', raw_edge_color='color')
+    Sigma.write_html(g, './templates/non_display_files/a.html', fullscreen=True, clickable_edges=True, node_size=g.degree, node_color='red', raw_edge_color='color')
 
 def format_attributes(data_dict):
         formatted_string = ""
@@ -277,7 +277,7 @@ def draw_nx_graph(source,destination,df,selected_columns,filename):
     # Show additional buttons for physics and interaction (optional)
     nt.show_buttons(filter_=['physics', 'interaction'])
     # Generate and save the HTML file
-    html_file_path = "./templates/output/" + filename.replace(' ', "").replace('-', '').split('.')[0] + '.html'
+    html_file_path = './templates/non_display_files/a.html'
     if os.path.exists(html_file_path):
         # Delete the file if it exists
         os.remove(html_file_path)

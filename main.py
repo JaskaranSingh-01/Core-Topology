@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request , redirect, url_for
+from flask import Flask, render_template, request , redirect, url_for, send_file
+from io import BytesIO
 import pandas as pd
 import networkx as nx
 import os
@@ -102,7 +103,7 @@ def form1():
             module.chk_files(location2)
             if check_progress == 'Success':
                 module.process_html_files(directory, title, favicon)
-                return render_template('non_display_files/path.html')
+                return render_template('non_display_files/a.html')
             else:
                 return f'No path exists from {src} to {dest}!!'
         elif value == 'all':
@@ -137,14 +138,14 @@ def form1():
             paths = path.get_all_paths(src,edge_data_bytelldp)
             path.draw_paths_nx(paths,critical_nodes)
             module.process_html_files(directory, title, favicon)
-            return render_template('non_display_files/bytellldp.html')
+            return render_template('non_display_files/a.html')
         elif value == 'value_of_bytellldp_ipy':
             src = request.form.get('bytellldp_source_ipy')
             paths = path.get_all_paths(src,edge_data_bytelldp)
             path.draw_paths_ipy(paths,critical_nodes)
             module.chk_files('./templates/non_display_files')
             module.process_html_files(directory, title, favicon)
-            return render_template('non_display_files/bytellldp.html')
+            return render_template('non_display_files/a.html')
         module.process_html_files(directory, title, favicon)
         return render_template('non_display_files/a.html')
             
@@ -215,9 +216,9 @@ def select_columns(filename,num):
             path.draw_ipy_graph(source,destination,df,selected_columns,filename)
         elif lib == 'nx':
             path.draw_nx_graph(source,destination,df,selected_columns,filename)
-        module.chk_files('./templates/output')
+        module.chk_files('./templates/non_display_files')
         module.process_html_files(directory, title, favicon)
-        return render_template('output/' + filename.replace(' ', "").replace('-', '').split('.')[0] + '.html', columns=selected_columns)
+        return render_template('non_display_files/a.html', columns=selected_columns)
     return render_template('select_columns.html',columns=columns, filename=filename,num=num)
 
 @app.route('/form3', methods=['GET', 'POST'])
@@ -233,7 +234,7 @@ def form3():
                 return "No Ideal paht exists"
             path.draw_paths_nx(ideal_path,critical_nodes)
             module.process_html_files(directory, title, favicon)
-            return render_template('non_display_files/bytellldp.html')
+            return render_template('non_display_files/a.html')
         elif value == 'ideal_value_of_bytellldp_ipy':
             src = request.form.get('bytellldp_source_ideal_ipy');
             invalid = request.form.get('bytellldp_source_invalid_ipy');
@@ -244,7 +245,7 @@ def form3():
             path.draw_paths_ipy(ideal_path,critical_nodes)
             module.chk_files('./templates/non_display_files')
             module.process_html_files(directory, title, favicon)
-            return render_template('non_display_files/bytellldp.html')
+            return render_template('non_display_files/a.html')
 
 @app.route("/form1/process",methods = ['GET','POST'])
 def process():
@@ -258,12 +259,17 @@ def process():
     if data is not None:
         module.plot_data(data_u1,keys_u1,name_list)
     module.process_html_files(directory, title, favicon)
-    return render_template('/non_display_files/a.html')
+    return render_template('non_display_files/a.html')
     #     return jsonify({'data': name_list}), 200
     # else:
     #     print("No data received")
     #     return jsonify({'error': 'No data provided'}), 400
 
+@app.route('/generate_html')
+def generate_html():
+    html_file_path = './templates/non_display_files/a.html'
+
+    return send_file(html_file_path, as_attachment=True, attachment_filename='downloaded_file.html')
 
 
 @app.route("/<route_name>")

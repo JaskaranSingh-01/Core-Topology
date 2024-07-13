@@ -151,7 +151,7 @@ def find_path(G,src,dest,path_list):
                 prev=i
         
         g = tables_to_graph(table_nodes, table_edges, node_col="Node", node_data=["Node",'col'], edge_data=['source', 'target'], directed=True)
-        Sigma.write_html(g,"./templates/non_display_files/path.html",fullscreen=True,clickable_edges=True,node_size=g.degree,node_color='col')
+        Sigma.write_html(g,"./templates/non_display_files/a.html",fullscreen=True,clickable_edges=True,node_size=g.degree,node_color='col')
         return 'Success'
     
     
