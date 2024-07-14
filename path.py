@@ -8,7 +8,116 @@ from pelote import tables_to_graph
 
 # wb = Workbook() # creates a workbook object.
 # ws = wb.active # creates a worksheet object.
+hex_codes_for_dark_background = [
+    "#00FFFF",  # aqua
+    "#F5F5DC",  # beige
+    "#7FFF00",  # chartreuse
+    "#FF7F50",  # coral
+    "#00FFFF",  # cyan
+    "#FF00FF",  # fuchsia
+    "#FFD700",  # gold
+    "#FF69B4",  # hotpink
+    "#F0E68C",  # khaki
+    "#E6E6FA",  # lavender
+    "#ADD8E6",  # lightblue
+    "#F08080",  # lightcoral
+    "#E0FFFF",  # lightcyan
+    "#FAFAD2",  # lightgoldenrodyellow
+    "#90EE90",  # lightgreen
+    "#FFB6C1",  # lightpink
+    "#FFA07A",  # lightsalmon
+    "#20B2AA",  # lightseagreen
+    "#87CEFA",  # lightskyblue
+    "#778899",  # lightslategray
+    "#B0C4DE",  # lightsteelblue
+    "#FFFFE0",  # lightyellow
+    "#00FF00",  # lime
+    "#32CD32",  # limegreen
+    "#FF00FF",  # magenta
+    "#F5FFFA",  # mintcream
+    "#FFE4E1",  # mistyrose
+    "#FFA500",  # orange
+    "#EEE8AA",  # palegoldenrod
+    "#98FB98",  # palegreen
+    "#AFEEEE",  # paleturquoise
+    "#DB7093",  # palevioletred
+    "#FFDAB9",  # peachpuff
+    "#FFC0CB",  # pink
+    "#DDA0DD",  # plum
+    "#FA8072",  # salmon
+    "#FFF5EE",  # seashell
+    "#C0C0C0",  # silver
+    "#87CEEB",  # skyblue
+    "#FFFAFA",  # snow
+    "#00FF7F",  # springgreen
+    "#D8BFD8",  # thistle
+    "#FF6347",  # tomato
+    "#40E0D0",  # turquoise
+    "#F5DEB3",  # wheat
+    "#FFFFFF",  # white
+    "#F5F5F5",  # whitesmoke
+    "#FFFF00"   # yellow
+]
 
+hex_codes_for_light_background = [
+    "#A52A2A",  # brown
+    "#0000FF",  # blue
+    "#5F9EA0",  # cadetblue
+    "#D2691E",  # chocolate
+    "#DC143C",  # crimson
+    "#00008B",  # darkblue
+    "#008B8B",  # darkcyan
+    "#B8860B",  # darkgoldenrod
+    "#006400",  # darkgreen
+    "#8B008B",  # darkmagenta
+    "#556B2F",  # darkolivegreen
+    "#FF8C00",  # darkorange
+    "#9932CC",  # darkorchid
+    "#8B0000",  # darkred
+    "#E9967A",  # darksalmon
+    "#8FBC8F",  # darkseagreen
+    "#483D8B",  # darkslateblue
+    "#2F4F4F",  # darkslategray
+    "#00CED1",  # darkturquoise
+    "#9400D3",  # darkviolet
+    "#FF1493",  # deeppink
+    "#00BFFF",  # deepskyblue
+    "#696969",  # dimgray
+    "#1E90FF",  # dodgerblue
+    "#B22222",  # firebrick
+    "#228B22",  # forestgreen
+    "#CD5C5C",  # indianred
+    "#4B0082",  # indigo
+    "#800000",  # maroon
+    "#0000CD",  # mediumblue
+    "#000000",  # black
+    "#BA55D3",  # mediumorchid
+    "#9370DB",  # mediumpurple
+    "#3CB371",  # mediumseagreen
+    "#7B68EE",  # mediumslateblue
+    "#00FA9A",  # mediumspringgreen
+    "#48D1CC",  # mediumturquoise
+    "#C71585",  # mediumvioletred
+    "#191970",  # midnightblue
+    "#000080",  # navy
+    "#808000",  # olive
+    "#6B8E23",  # olivedrab
+    "#FF4500",  # orangered
+    "#800080",  # purple
+    "#663399",  # rebeccapurple
+    "#FF0000",  # red
+    "#4169E1",  # royalblue
+    "#8B4513",  # saddlebrown
+    "#A0522D",  # sienna
+    "#6A5ACD",  # slateblue
+    "#708090",  # slategray
+    "#4682B4",  # steelblue
+    "#008080",  # teal
+    "#EE82EE",  # violet
+    "#9ACD32"   # yellowgreen
+]
+
+all_col =  hex_codes_for_light_background + hex_codes_for_dark_background
 
 def type_of_node(node):
     node_type = ""
@@ -209,37 +318,61 @@ def draw_paths_ipy(paths,critical_nodes):
     g = tables_to_graph(table_nodes, table_edges, node_col="Node", node_data=["Node",'col'], edge_data=['source', 'target'], directed=True)
     Sigma.write_html(g,'./templates/non_display_files/a.html',fullscreen=True,clickable_edges=True,node_size=g.degree,node_color='col')
 
-def draw_ipy_graph(source,destination,df,selected_columns,filename):
+def draw_ipy_graph(source,destination,df,selected_columns,filename,col_node,col_edge):
+    
     g = nx.MultiDiGraph()
     edge_label = []
     for idx in range(len(selected_columns)):
         edge_label.append(selected_columns[idx])
     table_nodes = []
     table_edges = []
-    dataOfEdges = ['source', 'target']
+    dataOfEdges = ['source', 'target','color']
     for i in range(len(selected_columns)):
         dataOfEdges.append(selected_columns[i])
     for idx, row in df.iterrows():
-        node_data = {
-            "Node": row[source]
-        }
+        if col_node == 'Default':
+            node_data = {
+                "Node": row[source],
+                'col' : 'Default'
+            }
+        else:
+            node_data = {
+                "Node": row[source],
+                'col' : row[col_node]
+            }
         table_nodes.append(node_data)
-        node_data = {
-            "Node": row[destination]
-        }
+        if col_node == 'Default':
+            node_data = {
+                "Node": row[destination],
+                'col' : 'Default'
+            }
+        else:
+            node_data = {
+            "Node": row[destination],
+            'col': row[col_node]
+            }
+        
         table_nodes.append(node_data)
         
-        edge_data = {
+        if col_edge == 'Default':
+            edge_data = {
             'source': row[source],
-            'target': row[destination]
-        }
+            'target': row[destination],
+            'color': 'Default'
+            }
+        else:
+            edge_data = {
+            'source': row[source],
+            'target': row[destination],
+            'color': row[col_edge]
+            }
         
         for i in range(len(selected_columns)):
             edge_data[selected_columns[i]] = row[selected_columns[i]]
         table_edges.append(edge_data)
         
-    g = tables_to_graph(table_nodes, table_edges, node_col="Node", node_data=["Node"], edge_data=dataOfEdges, directed=True)
-    Sigma.write_html(g, './templates/non_display_files/a.html', fullscreen=True, clickable_edges=True, node_size=g.degree, node_color='red', raw_edge_color='color')
+    g = tables_to_graph(table_nodes, table_edges, node_col="Node", node_data=["Node",'col'], edge_data=dataOfEdges, directed=True)
+    Sigma.write_html(g, './templates/non_display_files/a.html', fullscreen=True, clickable_edges=True, node_size=g.degree, node_color='col', edge_color='color')
 
 def format_attributes(data_dict):
         formatted_string = ""
@@ -250,9 +383,22 @@ def format_attributes(data_dict):
                 formatted_string += f"{key}: {value}\n"
         return formatted_string
 
-def draw_nx_graph(source,destination,df,selected_columns,filename):
+def draw_nx_graph(source,destination,df,selected_columns,filename,col_node,col_edge):
     G = nx.MultiDiGraph()
-    
+    lookup_light_edge = {}
+    lookup_light_node = {}
+    ec=[]
+    lc=[]
+    lookup_light_edge['Default'] = 'lightblue' 
+    lookup_light_node['Default'] = 'red' 
+    if col_edge!="Default":
+        ec  = list(set(df[col_edge]))
+    if col_node!="Default":
+        lc = list(set(df[col_node]))
+    for i in range(len(ec)):
+        lookup_light_edge[ec[i]]=hex_codes_for_dark_background[i%len(hex_codes_for_dark_background)];
+    for i in range(len(lc)):
+        lookup_light_node[lc[i]]=all_col[i%len(all_col)];
     # edge_label = []
     # for idx in range(len(selected_columns)):
     #     edge_label.append(selected_columns[idx])
@@ -264,11 +410,19 @@ def draw_nx_graph(source,destination,df,selected_columns,filename):
     for idx, row in df.iterrows():
         src_name = row[source]
         dest_name = row[destination]
-        G.add_node(src_name)
-        G.add_node(dest_name)
+        if col_node=="Default":
+            G.add_node(src_name)
+            G.add_node(dest_name)
+        else:
+            G.add_node(src_name,color_node = row[col_node],color = lookup_light_node[row[col_node]])
+            G.add_node(dest_name,color_node = row[col_node],color = lookup_light_node[row[col_node]])
+
         attributes = {col: row[col] for col in attribute_columns}
         attribute_html = format_attributes(attributes)
-        G.add_edge(src_name,dest_name, title=r"{}".format(attribute_html), color='lightblue')
+        if col_edge=="Default":
+            G.add_edge(src_name,dest_name, title=r"{}".format(attribute_html), color='lightblue',color_edge='lightblue')
+        else:
+            G.add_edge(src_name,dest_name, title=r"{}".format(attribute_html), color=lookup_light_edge[row[col_edge]],color_edge = row[col_edge])
     G = nx.relabel_nodes(G, {n: str(n) for n in G.nodes()})
     nt = Network(height="1500px", width="100%",bgcolor="#222222", font_color="white", directed=True, notebook=True, filter_menu=True, cdn_resources='remote')
     nt.from_nx(G)

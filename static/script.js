@@ -24,6 +24,7 @@ window.onload = function () {
 
 };
 
+
 window.onchange = function () {
     var e = document.getElementsByClassName('ipysigma-information-contents')
     var node = e.item(0).getElementsByTagName('i')[0].innerText
@@ -76,7 +77,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         // Get the first element with the specified class name
         var item = document.querySelectorAll('.ipysigma-download-controls');
-        console.log(item)
         // Add an event listener to the button
         button.addEventListener('click', () => {
             window.location.href = '/generate_html';

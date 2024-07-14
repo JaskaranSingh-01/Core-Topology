@@ -23,6 +23,16 @@
         {% for column in columns %}
             <input type="checkbox" name="columns" value="{{ column }}"> {{ column }}<br>
         {% endfor %}
+        <h1>Select Node Color</h1>
+        <input type="radio" name="col_node" value="Default"> Default <br>
+        {% for column in columns %}
+            <input type="radio" name="col_node" value="{{ column }}"> {{ column }}<br>
+        {% endfor %}
+        <h1>Select Edge Color</h1>
+        <input type="radio" name="col_edge" value="Default"> Default <br>
+        {% for column in columns %}
+            <input type="radio" name="col_edge" value="{{ column }}"> {{ column }}<br>
+        {% endfor %}
         <input type="submit" value="Submit">
     </form>
     <script src="{{ url_for('static', filename='script.js') }}" defer></script> 

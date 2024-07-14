@@ -212,10 +212,12 @@ def select_columns(filename,num):
         lib = request.form.get('lib')
         source = request.form.get('src')
         destination = request.form.get('dest')
+        node_color = request.form.get('col_node')
+        edge_color = request.form.get('col_edge')
         if lib == 'ipy':
-            path.draw_ipy_graph(source,destination,df,selected_columns,filename)
+            path.draw_ipy_graph(source,destination,df,selected_columns,filename,node_color,edge_color)
         elif lib == 'nx':
-            path.draw_nx_graph(source,destination,df,selected_columns,filename)
+            path.draw_nx_graph(source,destination,df,selected_columns,filename,node_color,edge_color)
         module.chk_files('./templates/non_display_files')
         module.process_html_files(directory, title, favicon)
         return render_template('non_display_files/a.html', columns=selected_columns)
