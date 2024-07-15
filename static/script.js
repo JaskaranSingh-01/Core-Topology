@@ -66,27 +66,25 @@ window.onchange = function () {
     console.log(node)
 };
 
-document.addEventListener('DOMContentLoaded', (event) => {
+window.addEventListener('DOMContentLoaded', (event) => {
     // Create a new button element
+    const button = document.createElement('button');
+    button.innerText = 'Download .html file';
+    button.classList.add('ipysigma-button');
+    button.style.margin = '3px';
+    button.style.padding = '1rem';
 
-    setTimeout(function () {
-        const button = document.createElement('button');
-        button.innerText = 'html';
-        button.classList.add('ipysigma-button');
-        button.style.margin = '3px';
-
-        // Get the first element with the specified class name
-        var item = document.querySelectorAll('.ipysigma-download-controls');
-        // Add an event listener to the button
-        button.addEventListener('click', () => {
-            window.location.href = '/generate_html';
-        });
-        if (item[0].lastChild.innerText != 'html') {
-            item[0].appendChild(button);
-        }
-
-    }, 5000); // Adjust the delay as needed
-
+    // Get the first element with the specified class name
+    var item = document.querySelector('.ipysigma-download-controls');
+    
+    // Add an event listener to the button
+    button.addEventListener('click', () => {
+        window.location.href = '/generate_html';
+    });
+    
+    if (document.body && document.body.lastChild.innerText != 'Download .html file') {
+        document.body.appendChild(button);
+    }
 });
 
 async function fetchScriptContent(url) {
