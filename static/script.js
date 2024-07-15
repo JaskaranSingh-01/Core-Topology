@@ -66,7 +66,7 @@ window.onchange = function () {
     console.log(node)
 };
 
-window.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', (event) => {
     // Create a new button element
     const button = document.createElement('button');
     button.innerText = 'Download .html file';
