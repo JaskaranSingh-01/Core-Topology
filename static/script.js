@@ -29,6 +29,12 @@ window.onload = function () {
 window.onchange = function () {
     var e = document.getElementsByClassName('ipysigma-information-contents')
     var node = e.item(0).getElementsByTagName('i')[0]
+    node.addEventListener('mouseover',(event)=>{
+        node.style.fontSize= "16px" ;
+    })
+    node.addEventListener('mouseout',(event)=>{
+        node.style.fontSize= "12px" ;
+    })
     node.addEventListener('click', (event) => {
         console.log(node)
         fetch('/get_data/' + node.innerText)
