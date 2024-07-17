@@ -376,6 +376,7 @@ def draw_ipy_graph(source,destination,df,selected_columns,filename,col_node,col_
         ed.pop('color')
         if row[source] not in nbr_list:
             nbr_list[row[source]]=[]
+            nbr_list[row[source]].append(ed)
         else:
             nbr_list[row[source]].append(ed)
     g = tables_to_graph(table_nodes, table_edges, node_col="Node", node_data=["Node",'col'], edge_data=dataOfEdges, directed=True)
