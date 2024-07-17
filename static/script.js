@@ -31,9 +31,11 @@ window.onchange = function () {
     var node = e.item(0).getElementsByTagName('i')[0]
     node.addEventListener('mouseover',(event)=>{
         node.style.fontSize= "16px" ;
+        node.style.cursor= "pointer" ;
     })
     node.addEventListener('mouseout',(event)=>{
         node.style.fontSize= "12px" ;
+        node.style.cursor= "default" ;
     })
     node.addEventListener('click', (event) => {
         console.log(node)
