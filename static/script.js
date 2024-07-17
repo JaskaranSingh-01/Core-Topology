@@ -29,13 +29,13 @@ window.onload = function () {
 window.onchange = function () {
     var e = document.getElementsByClassName('ipysigma-information-contents')
     var node = e.item(0).getElementsByTagName('i')[0]
-    node.addEventListener('mouseover',(event)=>{
-        node.style.fontSize= "16px" ;
-        node.style.cursor= "pointer" ;
+    node.addEventListener('mouseover', (event) => {
+        node.style.fontSize = "16px";
+        node.style.cursor = "pointer";
     })
-    node.addEventListener('mouseout',(event)=>{
-        node.style.fontSize= "12px" ;
-        node.style.cursor= "default" ;
+    node.addEventListener('mouseout', (event) => {
+        node.style.fontSize = "12px";
+        node.style.cursor = "default";
     })
     node.addEventListener('click', (event) => {
         console.log(node)
@@ -45,27 +45,58 @@ window.onchange = function () {
                 console.log(data)
 
                 let popup = document.getElementById('popup');
-                popup.innerHTML = '';
+                popup.innerHTML = ''; // Clear previous content
+
+                // Create a table
+                let table = document.createElement('table');
+
+                // Create table header
+                let thead = document.createElement('thead');
+                let headerRow = document.createElement('tr');
+                if (data.length > 0) {
+                    Object.keys(data[0]).forEach(key => {
+                        let th = document.createElement('th');
+                        th.textContent = key;
+                        th.style.border = '1px solid white';
+                        th.style.padding = '10px';
+                        th.style.textAlign = 'left';
+                        headerRow.appendChild(th);
+                    });
+                }
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+
+                // Create table body
+                let tbody = document.createElement('tbody');
                 data.forEach(item => {
-                    let d = document.createElement('div')
-                    for (const [key, value] of Object.entries(item)) {
-                        let p = document.createElement('p');
-                        p.textContent = `${key}: ${value}`;
-                        d.appendChild(p);
-                    }
-                    popup.appendChild(d);
-                    popup.appendChild(document.createElement('hr')); // Add a horizontal rule for separation
+                    let row = document.createElement('tr');
+                    Object.values(item).forEach(value => {
+                        let td = document.createElement('td');
+                        td.textContent = value;
+                        td.style.border = '1px solid white';
+                        td.style.padding = '10px';
+                        td.style.textAlign = 'left';
+                        row.appendChild(td);
+                    });
+                    tbody.appendChild(row);
                 });
+                table.appendChild(tbody);
+                table.style.width = '100%';
+                table.style.borderCollapse = 'collapse';
+                table.style.borderCollapse = '1px solid white';
+                table.style.borderRadius = '1.5rem';
+                popup.appendChild(table);
                 popup.style.display = 'block';
                 popup.style.position = 'absolute'
-                popup.style.top = '4rem' 
-                popup.style.width = '50%';
-                popup.style.height= '40vh';
-                popup.style.background= '#212121';
-                popup.style.color= 'white';
-                popup.style.borderRadius= '1rem';
-                popup.style.padding= '3rem';
-                popup.style.overflow= 'auto';
+                popup.style.top = '2rem'
+                popup.style.width = 'fit-content';
+                popup.style.height = '40vh';
+                popup.style.background = '#212121';
+                popup.style.color = 'white';
+                popup.style.borderRadius = '1rem';
+                popup.style.padding = '3rem';
+                popup.style.overflow = 'auto';
+                popup.style.boxShadow = '0px 0px 10px rgba(0, 0, 0, 0.5)'
 
             })
             .catch(error => console.error('Error:', error));
