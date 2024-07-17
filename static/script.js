@@ -25,45 +25,46 @@ window.onload = function () {
 };
 
 
+
 window.onchange = function () {
     var e = document.getElementsByClassName('ipysigma-information-contents')
-    var node = e.item(0).getElementsByTagName('i')[0].innerText
-    $.ajax({
-        url: '/form1/process',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({ 'value': node }),
-        success: function (response) {
-            console.log("Data successfully sent:", response);
-        },
-        error: function (error) {
-            console.log("Error:", error);
-        }
-    });
+    var node = e.item(0).getElementsByTagName('i')[0]
+    node.addEventListener('click', (event) => {
+        console.log(node)
+        fetch('/get_data/' + node.innerText)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
 
-    // Add confirmation prompt before opening the new link
-    var userConfirmed = confirm("Do you want to open the next link?");
-    if (userConfirmed) {
-        // $.ajax({
-        //     url: '/process',
-        //     type: 'POST',
-        //     contentType: 'application/json',
-        //     data: JSON.stringify({ 'value': node }),
+                let popup = document.getElementById('popup');
+                popup.innerHTML = '';
+                data.forEach(item => {
+                    let d = document.createElement('div')
+                    for (const [key, value] of Object.entries(item)) {
+                        let p = document.createElement('p');
+                        p.textContent = `${key}: ${value}`;
+                        d.appendChild(p);
+                    }
+                    popup.appendChild(d);
+                    popup.appendChild(document.createElement('hr')); // Add a horizontal rule for separation
+                });
+                popup.style.display = 'block';
+                popup.style.position = 'absolute'
+                popup.style.top = '4rem' 
+                popup.style.width = '50%';
+                popup.style.height= '40vh';
+                popup.style.background= '#212121';
+                popup.style.color= 'white';
+                popup.style.borderRadius= '1rem';
+                popup.style.padding= '3rem';
+                popup.style.overflow= 'auto';
+
+            })
+            .catch(error => console.error('Error:', error));
+    })
 
 
-        //     error: function (error) {
-        //         console.log(error);
-        //     }
-        // });
-        // Alternatively, you can use: window.location.href = "/ugandabasic/process";
-        window.open("/form1/process");
-    }
-
-
-    // window.open("/ugandabasic/process")
-    // window.location.href = "/ugandabasic/process"
-    var node = e.item(0).getElementsByTagName('i')[0].innerText
-    console.log(node)
+    // var node = e.item(0).getElementsByTagName('i')[0].innerText
 };
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -76,18 +77,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Get the first element with the specified class name
     var item = document.querySelector('.ipysigma-download-controls');
-    
+
     // Add an event listener to the button
     button.addEventListener('click', () => {
         window.location.href = '/generate_html';
     });
-    
+
     if (document.body && document.body.lastChild.innerText != 'Download .html file') {
         document.body.appendChild(button);
     }
 });
 
-async function fetchScriptContent(url) {
-    const response = await fetch(url);
-    return await response.text();
-}
+
+window.onclick = function (event) {
+    let popup = document.getElementById('popup');
+    if (event.target !== popup && !popup.contains(event.target)) {
+        popup.style.display = 'none';
+    }
+};

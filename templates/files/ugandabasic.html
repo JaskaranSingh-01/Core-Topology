@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
   <meta charset="UTF-8">
-    <title>Core Topology</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+  <title>Core Topology</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+
 <body>
 
 
-<!-- Load require.js. Delete this if your page already loads require.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js" crossorigin="anonymous"></script>
+  <!-- Load require.js. Delete this if your page already loads require.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"
+    integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"
+    crossorigin="anonymous"></script>
 
-<script type="application/vnd.jupyter.widget-state+json">
+  <script type="application/vnd.jupyter.widget-state+json">
 {
   "version_major": 2,
   "version_minor": 0,
@@ -82484,12 +82488,12 @@
   }
 }
 </script>
-<script type="application/vnd.jupyter.widget-view+json">
+  <script type="application/vnd.jupyter.widget-view+json">
 {"version_major": 2, "version_minor": 0, "model_id": "0f7d579f6ac74c038d129fc8295ba02b"}
 </script>
 
 
-<!-- <script defer> 
+  <!-- <script defer> 
     window.onload = function () {
     require.config({
         paths: {
@@ -82514,6 +82518,99 @@
 };
 </script> -->
 
- <script src="{{ url_for('static', filename='script.js') }}" defer></script> 
+  <script defer>
+    window.onload = function () {
+      require.config({
+        paths: {
+          ipysigma: 'https://unpkg.com/ipysigma@0.24.2/dist/ipysigma'
+        }
+      });
+      require(['@jupyter-widgets/html-manager'], function (htmlManager) {
+        const widgetState = JSON.parse(document.getElementById('widget-state').textContent);
+        const manager = new htmlManager.HTMLManager();
+        manager.set_state(widgetState).then(models => {
+          for (let model_id in models) {
+            const model = models[model_id];
+            const view = manager.create_view(model);
+            view.then(view_instance => {
+              document.getElementById('widget-container').appendChild(view_instance.el);
+              manager.display_view(view_instance);
+            });
+          }
+        });
+      });
+
+
+
+
+    };
+
+
+
+    window.onchange = function () {
+      var e = document.getElementsByClassName('.ipysigma-information-contents')
+      var node = e.item(0).getElementsByTagName('i')[0].innerText
+
+      $.ajax({
+        url: '/form1/process',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ 'value': node }),
+        success: function (response) {
+          console.log("Data successfully sent:", response);
+        },
+        error: function (error) {
+          console.log("Error:", error);
+        }
+      });
+
+      // Add confirmation prompt before opening the new link
+      var userConfirmed = confirm("Do you want to open the next link?");
+      if (userConfirmed) {
+        // $.ajax({
+        //     url: '/process',
+        //     type: 'POST',
+        //     contentType: 'application/json',
+        //     data: JSON.stringify({ 'value': node }),
+
+
+        //     error: function (error) {
+        //         console.log(error);
+        //     }
+        // });
+        // Alternatively, you can use: window.location.href = "/ugandabasic/process";
+        window.open("/form1/process");
+      }
+
+
+      // window.open("/ugandabasic/process")
+      // window.location.href = "/ugandabasic/process"
+      var node = e.item(0).getElementsByTagName('i')[0].innerText
+      console.log(node)
+    };
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+      // Create a new button element
+      const button = document.createElement('button');
+      button.innerText = 'Download .html file';
+      button.classList.add('ipysigma-button');
+      button.style.margin = '3px';
+      button.style.padding = '1rem';
+
+      // Get the first element with the specified class name
+      var item = document.querySelector('.ipysigma-download-controls');
+
+      // Add an event listener to the button
+      button.addEventListener('click', () => {
+        window.location.href = '/generate_html';
+      });
+
+      if (document.body && document.body.lastChild.innerText != 'Download .html file') {
+        document.body.appendChild(button);
+      }
+    });
+  </script>
+<script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </body>
+ 
 </html>

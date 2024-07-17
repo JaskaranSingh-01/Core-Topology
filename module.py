@@ -109,7 +109,21 @@ def set_edge_data(src,dest):
 
 
 def chk_files(path):
-    script_tag = ''' <script src="{{ url_for('static', filename='script.js') }}" defer></script> '''
+    script_tag = '''<script src="{{ url_for('static', filename='script.js') }}" defer></script>'''
+
+    for filename in os.listdir(path):
+        if filename.endswith('.html'):
+            filepath = os.path.join(path, filename)
+            with open(filepath, 'r') as file:
+                content = file.read()
+
+            if script_tag not in content:
+                content = content.replace('</body>', f'{script_tag}\n</body>')
+                with open(filepath, 'w') as file:
+                    file.write(content)
+
+def chk_files_pop(path):
+    script_tag = ''' <div id="popup" style="display: none;"></div> <script src="{{ url_for('static', filename='script.js') }}" defer></script> '''
 
     for filename in os.listdir(path):
         if filename.endswith('.html'):

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request , redirect, url_for, send_file
+from flask import Flask, render_template, request , redirect, url_for, send_file, jsonify
 from io import BytesIO
 import pandas as pd
 import networkx as nx
@@ -67,6 +67,7 @@ list_options_z2 = []
 for k in data_z2:
     list_options_z2.append(k)
 
+nested_dict = {}
 
 def number_to_digits_string(number):
     # Convert number to string
@@ -215,10 +216,12 @@ def select_columns(filename,num):
         node_color = request.form.get('col_node')
         edge_color = request.form.get('col_edge')
         if lib == 'ipy':
-            path.draw_ipy_graph(source,destination,df,selected_columns,filename,node_color,edge_color)
+            nbr_list = path.draw_ipy_graph(source,destination,df,selected_columns,filename,node_color,edge_color)
+            global nested_dict
+            nested_dict.update(nbr_list)
         elif lib == 'nx':
             path.draw_nx_graph(source,destination,df,selected_columns,filename,node_color,edge_color)
-        module.chk_files('./templates/non_display_files')
+        module.chk_files_pop('./templates/non_display_files')
         module.process_html_files(directory, title, favicon)
         return render_template('non_display_files/a.html', columns=selected_columns)
     return render_template('select_columns.html',columns=columns, filename=filename,num=num)
@@ -273,6 +276,10 @@ def generate_html():
 
     return send_file(html_file_path, as_attachment=True, attachment_filename='downloaded_file.html')
 
+@app.route('/get_data/<node>')
+def get_data(node):
+    print(nested_dict.keys)
+    return jsonify(nested_dict[node])
 
 @app.route("/<route_name>")
 def dynamic_route(route_name):
@@ -296,6 +303,8 @@ def dynamic_route(route_name):
 #         # Return a 404 error if the template does not exist
 #         return f"Route not found: {template_name}"
 #         # abort(404)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0',port=6001)

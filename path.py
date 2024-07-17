@@ -4,6 +4,7 @@ from ipysigma import Sigma
 from pyvis.network import Network
 import os
 from pelote import tables_to_graph
+import copy
 # from openpyxl import Workbook
 
 # wb = Workbook() # creates a workbook object.
@@ -319,7 +320,7 @@ def draw_paths_ipy(paths,critical_nodes):
     Sigma.write_html(g,'./templates/non_display_files/a.html',fullscreen=True,clickable_edges=True,node_size=g.degree,node_color='col')
 
 def draw_ipy_graph(source,destination,df,selected_columns,filename,col_node,col_edge):
-    
+    nbr_list = {}
     g = nx.MultiDiGraph()
     edge_label = []
     for idx in range(len(selected_columns)):
@@ -370,9 +371,16 @@ def draw_ipy_graph(source,destination,df,selected_columns,filename,col_node,col_
         for i in range(len(selected_columns)):
             edge_data[selected_columns[i]] = row[selected_columns[i]]
         table_edges.append(edge_data)
-        
+        ed = copy.deepcopy(edge_data)
+        ed.pop('source')
+        ed.pop('color')
+        if row[source] not in nbr_list:
+            nbr_list[row[source]]=[]
+        else:
+            nbr_list[row[source]].append(ed)
     g = tables_to_graph(table_nodes, table_edges, node_col="Node", node_data=["Node",'col'], edge_data=dataOfEdges, directed=True)
     Sigma.write_html(g, './templates/non_display_files/a.html', fullscreen=True, clickable_edges=True, node_size=g.degree, node_color='col', edge_color='color')
+    return nbr_list
 
 def format_attributes(data_dict):
         formatted_string = ""
